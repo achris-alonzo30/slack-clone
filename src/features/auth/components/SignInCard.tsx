@@ -27,7 +27,12 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
         email: "",
         password: ""
     });
+    const [pending, setPending] = useState(false);
 
+    const onSignIn = (provider: "github" | "google") => {
+        setPending(true);
+        signIn(provider).finally(() => setPending(false));
+    }
 
     return (
         <Card className="w-full h-full p-8">
@@ -43,20 +48,20 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             <aside className="flex flex-col gap-y-2.5">
                     <Button
                         size="sm"
-                        disabled={false}
+                        disabled={pending}
                         variant="outline"
                         className="w-full relative"
-                        onClick={() => void signIn("google", { redirectTo: "/" })}
+                        onClick={() => onSignIn("google")}
                     >
                         <FcGoogle className="size-5 absolute top-2 left-2.5" />
                         Continue with Google
                     </Button>
                     <Button
                         size="sm"
-                        disabled={false}
+                        disabled={pending}
                         variant="outline"
                         className="w-full relative"
-                        onClick={() => void signIn("github", { redirectTo: "/" })}
+                        onClick={() => onSignIn("github")}
                     >
                         <FaGithub className="size-5 absolute top-2 left-2.5" />
                         Continue with GitHub
@@ -73,7 +78,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                             id="email"
                             name="email"
                             type="email"
-                            disabled={false}
+                            disabled={pending}
                             value={account.email}
                             placeholder="Enter your email"
                             onChange={(e) => setAccount({ ...account, email: e.target.value })}
@@ -86,7 +91,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                             id="password"
                             type="password"
                             name="password"
-                            disabled={false}
+                            disabled={pending}
                             value={account.password}
                             placeholder="Enter your password"
                             onChange={(e) => setAccount({ ...account, password: e.target.value })}
@@ -95,7 +100,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                     <Button
                         size="sm"
                         type="submit"
-                        disabled={false}
+                        disabled={pending}
                         className="w-full"
                     >
                         Continue with email
