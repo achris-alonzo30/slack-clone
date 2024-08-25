@@ -11,7 +11,7 @@ export const AuthScreen = () => {
   return (
     <section className="h-full flex items-center justify-center bg-[#5C3B58]">
       <aside className="md:h-auto md:w-[420px]">
-        {authFlow === "signIn" ? <SignInCard /> : <SignUpCard />}
+        {authFlow === "signIn" ? <SignInCard setState={setAuthFlow} /> : <SignUpCard setState={setAuthFlow} />}
       </aside>
     </section>
   );

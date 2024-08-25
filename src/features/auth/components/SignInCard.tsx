@@ -1,3 +1,4 @@
+import { AuthFlow } from "../types";
 
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
@@ -12,9 +13,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
 
-export const SignInCard = () => {
+
+interface SignInCardProps {
+    setState: (state: AuthFlow) => void;
+}
+
+export const SignInCard = ({ setState }: SignInCardProps) => {
     return (
         <Card className="w-full h-full p-8">
             <CardHeader className="px-0 pt-0">
@@ -88,7 +93,13 @@ export const SignInCard = () => {
                     </Button>
                 </form>
                 <p className="text-xs text-center text-neutral-500">
-                    Don&apos;t have an account? <Link href="/auth/sign-up" className="text-sky-700 hover:underline cursor-pointer">Sign up</Link>
+                    Don&apos;t have an account? 
+                    <span 
+                        onClick={() => setState("signUp")}
+                        className="text-sky-700 hover:underline cursor-pointer"
+                    >
+                        Sign up
+                    </span>
                 </p>
             </CardContent>
         </Card>
