@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AuthFlow } from "../types";
+import { useAuthActions } from "@convex-dev/auth/react";
 
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
@@ -15,13 +16,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-
-
 interface SignUpCardProps {
   setState: (state: AuthFlow) => void;
 }
 
 export const SignUpCard = ({ setState }: SignUpCardProps) => {
+  const { signIn } = useAuthActions();
   const [account, setAccount] = useState({
     email: "",
     password: "",
@@ -44,9 +44,9 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
           <Button
             size="sm"
             disabled={false}
-            onClick={() => { }}
             variant="outline"
             className="w-full relative"
+            onClick={() => void signIn("google", { redirectTo: "/home" })}
           >
             <FcGoogle className="size-5 absolute top-2 left-2.5" />
             Continue with Google
@@ -54,9 +54,9 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
           <Button
             size="sm"
             disabled={false}
-            onClick={() => { }}
             variant="outline"
             className="w-full relative"
+            onClick={() => void signIn("github", { redirectTo: "/home" })}
           >
             <FaGithub className="size-5 absolute top-2 left-2.5" />
             Continue with GitHub
