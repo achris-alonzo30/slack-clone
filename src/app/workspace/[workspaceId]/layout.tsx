@@ -1,3 +1,7 @@
+"use client";
+
+
+
 import { Toolbar } from "./Toolbar";
 
 export default function WorkspaceLayout({ children }: { children: React.ReactNode }) {
