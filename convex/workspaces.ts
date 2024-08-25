@@ -9,6 +9,19 @@ export const get = query({
     }
 })
 
+export const getById = query({
+    args: { workspaceId: v.id("workspaces") },
+    handler: async (ctx, { workspaceId }) => {
+        const userId = await getAuthUserId(ctx);
+
+        if (userId === null) {
+            throw new Error("Client is not authenticated!")
+        }
+
+        return await ctx.db.get(workspaceId);
+    }
+})
+
 export const create = mutation({
     args: { name: v.string() },
     handler: async (ctx, { name }) => {
