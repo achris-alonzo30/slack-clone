@@ -13,14 +13,12 @@ export default function Home() {
 
   const { workspaces, isLoading } = useGetWorkspaces();
 
-  const workspaceId = useMemo(() => {
-    workspaces?.[0]?._id;
-  }, [workspaces]);
+  const workspaceId = useMemo(() => workspaces?.[0]!._id, [workspaces]);
 
   useEffect(() => {
     if (isLoading) return;
 
-    if (workspaceId !== undefined) {
+    if (workspaceId) {
       router.replace(`/workspace/${workspaceId}`);
     } else if (!isOpen) {
       setIsOpen(true);
