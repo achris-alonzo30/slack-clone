@@ -4,6 +4,7 @@ import { useAuthActions } from "@convex-dev/auth/react";
 
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { TriangleAlert } from "lucide-react";
 
 import { 
     Card, 
@@ -15,8 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { TriangleAlert } from "lucide-react";
-
 
 interface SignInCardProps {
     setState: (state: AuthFlow) => void;
@@ -31,12 +30,12 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
     const [pending, setPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const oauthSignIn = (provider: "github" | "google") => {
+    const signInByOAuth = (provider: "github" | "google") => {
         setPending(true);
         signIn(provider).finally(() => setPending(false));
     }
 
-    const credentialsSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+    const signInByEmail = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setPending(true);
         signIn("password", {
@@ -73,7 +72,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                         disabled={pending}
                         variant="outline"
                         className="w-full relative"
-                        onClick={() => oauthSignIn("google")}
+                        onClick={() => signInByOAuth("google")}
                     >
                         <FcGoogle className="size-5 absolute top-2 left-2.5" />
                         Continue with Google
@@ -83,7 +82,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                         disabled={pending}
                         variant="outline"
                         className="w-full relative"
-                        onClick={() => oauthSignIn("github")}
+                        onClick={() => signInByOAuth("github")}
                     >
                         <FaGithub className="size-5 absolute top-2 left-2.5" />
                         Continue with GitHub
@@ -92,7 +91,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
 
                 <Separator className="my-2" />
 
-                <form className="space-y-4" onSubmit={credentialsSignIn}>
+                <form className="space-y-4" onSubmit={signInByEmail}>
                     <fieldset>
                         <label htmlFor="email" className="text-sm font-medium text-neutral-700">Email</label>
                         <Input
