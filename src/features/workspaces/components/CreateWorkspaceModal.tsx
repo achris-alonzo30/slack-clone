@@ -1,26 +1,38 @@
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useModalState } from "../store/useModalState";
+import { useCreateWorkspace } from "../api/useCreateWorkspaces";
+
 import {
     Dialog,
     DialogTitle,
     DialogHeader,
     DialogContent,
-    DialogDescription,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useModalState } from "../store/useModalState";
-import { useCreateWorkspace } from "../api/useCreateWorkspaces";
+
+
 
 export const CreateWorkspaceModal = () => {
+    const router = useRouter();
     const [open, setOpen] = useModalState();
-    const { mutate} = useCreateWorkspace();
+    const { mutate, isPending } = useCreateWorkspace();
+    const [workspaceName, setWorkspaceName] = useState("");
 
     const handleClose = () => {
         setOpen(false);
+        setWorkspaceName("");
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
+        mutate({ name: workspaceName }, {
+            onSuccess: (workspaceId) => {
+                router.push(`/workspace/${workspaceId}`);
+                handleClose();
+            }
+        })
     };
 
     return (
@@ -38,10 +50,12 @@ export const CreateWorkspaceModal = () => {
                         autoFocus
                         minLength={3}
                         type="text" 
+                        className="w-full"
                         id="workspace-name" 
                         name="workspace-name"
+                        value={workspaceName}
                         placeholder="Workspace name e.g 'Acme Corp'" 
-                        className="w-full"
+                        onChange={(e) => setWorkspaceName(e.target.value)}
                     />
                 </fieldset>
                 <aside className="flex justify-end">

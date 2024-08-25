@@ -4,8 +4,10 @@ import { useEffect, useMemo } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useModalState } from "@/features/workspaces/store/useModalState";
 import { useGetWorkspaces } from "@/features/workspaces/api/useGetWorkspaces";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useModalState();
   const { signOut } = useAuthActions();
 
@@ -19,7 +21,7 @@ export default function Home() {
     if (isLoading) return;
 
     if (workspaceId !== undefined) {
-      console.log("workspaceId", workspaceId);
+      router.replace(`/workspace/${workspaceId}`);
     } else if (!isOpen) {
       setIsOpen(true);
     }
