@@ -1,10 +1,11 @@
 import "./globals.css";
 
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 
 import { ConvexClientProvider } from "@/providers/ConvexClientProviders";
-import { cn } from "@/lib/utils";
+import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 
 const font = Manrope({ subsets: ["latin"] });
 
@@ -19,16 +20,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html 
-      lang="en" 
-      suppressHydrationWarning
-      suppressContentEditableWarning
-    >
-      <body className={cn(font.className, "antialiased")}>
-        <ConvexClientProvider>
-          {children}
-        </ConvexClientProvider>
-      </body>
-    </html>
+    <ConvexAuthNextjsServerProvider>
+      <html
+        lang="en"
+        suppressHydrationWarning
+        suppressContentEditableWarning
+      >
+        <body className={cn(font.className, "antialiased")}>
+          <ConvexClientProvider>
+            {children}
+          </ConvexClientProvider>
+        </body>
+      </html>
+    </ConvexAuthNextjsServerProvider>
   );
 }
