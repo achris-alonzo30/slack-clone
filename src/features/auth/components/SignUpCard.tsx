@@ -48,7 +48,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
             variant="outline"
             className="w-full relative"
           >
-            <FcGoogle className="size-5 absolute top-3 left-2.5" />
+            <FcGoogle className="size-5 absolute top-2 left-2.5" />
             Continue with Google
           </Button>
           <Button
@@ -58,7 +58,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
             variant="outline"
             className="w-full relative"
           >
-            <FaGithub className="size-5 absolute top-3 left-2.5" />
+            <FaGithub className="size-5 absolute top-2 left-2.5" />
             Continue with GitHub
           </Button>
         </aside>
@@ -115,7 +115,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
           </Button>
         </form>
         <p className="text-xs text-center text-neutral-500">
-          Already have an account?
+          Already have an account?{" "}
           <span
             onClick={() => setState("signIn")}
             className="text-sky-700 hover:underline cursor-pointer"
