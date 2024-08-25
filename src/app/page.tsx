@@ -1,9 +1,9 @@
 "use client";
 
-import { useModalState } from "@/features/store/useModalState";
-import { useGetWorkspaces } from "@/features/workspaces/api/useGetWorkspaces";
-import { useAuthActions } from "@convex-dev/auth/react";
 import { useEffect, useMemo } from "react";
+import { useAuthActions } from "@convex-dev/auth/react";
+import { useModalState } from "@/features/workspaces/store/useModalState";
+import { useGetWorkspaces } from "@/features/workspaces/api/useGetWorkspaces";
 
 export default function Home() {
   const [isOpen, setIsOpen] = useModalState();

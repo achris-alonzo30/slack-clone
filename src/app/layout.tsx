@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 
+import { Modals } from "@/components/modals";
 import { ConvexClientProvider } from "@/providers/ConvexClientProviders";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 
@@ -28,6 +29,7 @@ export default function RootLayout({
       >
         <body className={cn(font.className, "antialiased")}>
           <ConvexClientProvider>
+            <Modals />
             {children}
           </ConvexClientProvider>
         </body>
