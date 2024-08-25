@@ -8,15 +8,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useModalState } from "../store/useModalState";
+import { useCreateWorkspace } from "../api/useCreateWorkspaces";
 
 export const CreateWorkspaceModal = () => {
     const [open, setOpen] = useModalState();
+    const { mutate} = useCreateWorkspace();
 
     const handleClose = () => {
         setOpen(false);
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {}
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        
+    };
+
     return (
         <Dialog open={open} onOpenChange={handleClose}>
             <DialogContent className="sm:max-w-[425px]">
