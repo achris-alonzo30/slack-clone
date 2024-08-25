@@ -33,10 +33,18 @@ export const create = mutation({
 
         const joinCode = crypto.randomUUID();
 
-        return await ctx.db.insert("workspaces", {
+        const workspaceId = await ctx.db.insert("workspaces", {
             name,
             userId,
             joinCode,
-        })
+        });
+
+        await ctx.db.insert("members", {
+            userId,
+            workspaceId,
+            role: "admin",
+        });
+
+        return workspaceId;
     }
 })
