@@ -1,8 +1,12 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+import type { Metadata } from "next";
+import { Manrope } from "next/font/google";
+
+import { ConvexClientProvider } from "@/providers/ConvexClientProviders";
+import { cn } from "@/lib/utils";
+
+const font = Manrope({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +19,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html 
+      lang="en" 
+      suppressHydrationWarning
+      suppressContentEditableWarning
+    >
+      <body className={cn(font.className, "antialiased")}>
+        <ConvexClientProvider>
+          {children}
+        </ConvexClientProvider>
+      </body>
     </html>
   );
 }
