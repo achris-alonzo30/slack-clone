@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { TriangleAlert } from "lucide-react";
 
 
 interface SignInCardProps {
@@ -28,10 +29,25 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
         password: ""
     });
     const [pending, setPending] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const onSignIn = (provider: "github" | "google") => {
+    const oauthSignIn = (provider: "github" | "google") => {
         setPending(true);
         signIn(provider).finally(() => setPending(false));
+    }
+
+    const credentialsSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setPending(true);
+        signIn("password", {
+            email: account.email,
+            password: account.password,
+            flow: "signIn",
+        })
+        .catch(() => {
+            setError("Invalid credentials");
+        })
+        .finally(() => setPending(false));
     }
 
     return (
@@ -44,6 +60,12 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                     Use your email or another provider to login
                 </CardDescription>
             </CardHeader>
+            {!!error && (
+                <span className="bg-destructive/15 p-3 rounded-md flex items-center text-white gap-x-2 text-sm">
+                    <TriangleAlert className="size-4" />
+                    {error}
+                </span>
+            )}
             <CardContent className="space-y-5 px-0 pb-0">
             <aside className="flex flex-col gap-y-2.5">
                     <Button
@@ -51,7 +73,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                         disabled={pending}
                         variant="outline"
                         className="w-full relative"
-                        onClick={() => onSignIn("google")}
+                        onClick={() => oauthSignIn("google")}
                     >
                         <FcGoogle className="size-5 absolute top-2 left-2.5" />
                         Continue with Google
@@ -61,7 +83,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                         disabled={pending}
                         variant="outline"
                         className="w-full relative"
-                        onClick={() => onSignIn("github")}
+                        onClick={() => oauthSignIn("github")}
                     >
                         <FaGithub className="size-5 absolute top-2 left-2.5" />
                         Continue with GitHub
@@ -70,7 +92,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
 
                 <Separator className="my-2" />
 
-                <form className="space-y-4">
+                <form className="space-y-4" onSubmit={credentialsSignIn}>
                     <fieldset>
                         <label htmlFor="email" className="text-sm font-medium text-neutral-700">Email</label>
                         <Input
