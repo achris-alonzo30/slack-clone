@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { AuthFlow } from "../types";
 
 import { FcGoogle } from "react-icons/fc";
@@ -14,12 +15,17 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-
 interface SignInCardProps {
     setState: (state: AuthFlow) => void;
 }
 
 export const SignInCard = ({ setState }: SignInCardProps) => {
+    const [account, setAccount] = useState({
+        email: "",
+        password: ""
+    });
+
+
     return (
         <Card className="w-full h-full p-8">
             <CardHeader className="px-0 pt-0">
@@ -60,27 +66,27 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                     <fieldset>
                         <label htmlFor="email" className="text-sm font-medium text-neutral-700">Email</label>
                         <Input
+                            required
                             id="email"
                             name="email"
-                            required
                             type="email"
-                            value=""
                             disabled={false}
+                            value={account.email}
                             placeholder="Enter your email"
-                            onChange={() => { }}
+                            onChange={(e) => setAccount({ ...account, email: e.target.value })}
                         />
                     </fieldset>
                     <fieldset>
                         <label htmlFor="password" className="text-sm font-medium text-neutral-700">Password</label>
                         <Input
-                            id="password"
-                            name="password"
                             required
+                            id="password"
                             type="password"
-                            value=""
+                            name="password"
                             disabled={false}
+                            value={account.password}
                             placeholder="Enter your password"
-                            onChange={() => { }}
+                            onChange={(e) => setAccount({ ...account, password: e.target.value })}
                         />
                     </fieldset>
                     <Button
