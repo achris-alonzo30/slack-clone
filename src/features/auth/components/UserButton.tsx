@@ -1,5 +1,10 @@
 "use client";
 
+import { useAuthActions } from "@convex-dev/auth/react";
+import { useCurrentUser } from "../hooks/useCurrentUser";
+
+import { Loader2, LogOut } from "lucide-react";
+
 import {
     Avatar,
     AvatarImage,
@@ -12,20 +17,31 @@ import {
     DropdownMenuContent,
 } from "@/components/ui/dropdown-menu"
 
+
 export const UserButton = () => {
+    const { signOut } = useAuthActions();
+    const { user, isLoading } = useCurrentUser();
+
+    if (isLoading) return <Loader2 className="animate-spin size-5 text-muted-foreground" />;
+
+    if (!user) return null;
+
+    const avatarFallback = user.name!.charAt(0).toUpperCase();
+
     return (
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger className="outline-none relative" asChild>
                 <Avatar className="size-10 hover:opacity-75 cursor-pointer transition-opacity duration-150">
-                    <AvatarImage  />
-                    <AvatarFallback>
-                        
+                    <AvatarImage alt={user.name!} src={user.image!} />
+                    <AvatarFallback className="text-neutral-300 bg-neutral-950">
+                        {avatarFallback}
                     </AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center" side="right" className="w-60">
-                <DropdownMenuItem>
-                    
+                <DropdownMenuItem onClick={() => signOut()} className="h-10">
+                    <LogOut className="size-4 mr-2" />
+                    Logout
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
