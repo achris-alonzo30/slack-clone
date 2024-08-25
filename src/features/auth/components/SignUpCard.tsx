@@ -25,6 +25,7 @@ interface SignUpCardProps {
 export const SignUpCard = ({ setState }: SignUpCardProps) => {
   const { signIn } = useAuthActions();
   const [account, setAccount] = useState({
+    name: "",
     email: "",
     password: "",
     confirmPassword: ""
@@ -47,6 +48,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
 
     setPending(true);
     signIn("password", {
+      name: account.name,
       email: account.email,
       password: account.password,
       flow: "signUp",
@@ -100,6 +102,19 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
         <Separator className="my-2" />
 
         <form className="space-y-4" onSubmit={signUpByEmail}>
+          <fieldset>
+            <label htmlFor="name" className="text-sm font-medium text-neutral-700">Name</label>
+            <Input
+              required
+              id="name"
+              name="name"
+              type="text"
+              disabled={pending}
+              value={account.name}
+              placeholder="Enter your full name"
+              onChange={(e) => setAccount({ ...account, name: e.target.value })}
+            />
+          </fieldset>
           <fieldset>
             <label htmlFor="email" className="text-sm font-medium text-neutral-700">Email</label>
             <Input
