@@ -46,7 +46,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                         disabled={false}
                         variant="outline"
                         className="w-full relative"
-                        onClick={() => void signIn("google", { redirectTo: "/home" })}
+                        onClick={() => void signIn("google", { redirectTo: "/" })}
                     >
                         <FcGoogle className="size-5 absolute top-2 left-2.5" />
                         Continue with Google
@@ -56,7 +56,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                         disabled={false}
                         variant="outline"
                         className="w-full relative"
-                        onClick={() => void signIn("github", { redirectTo: "/home" })}
+                        onClick={() => void signIn("github", { redirectTo: "/" })}
                     >
                         <FaGithub className="size-5 absolute top-2 left-2.5" />
                         Continue with GitHub
