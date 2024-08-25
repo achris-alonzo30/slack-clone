@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthActions } from "@convex-dev/auth/react";
-import { useCurrentUser } from "../hooks/useCurrentUser";
+import { useCurrentUser } from "../api/useCurrentUser";
 
 import { Loader2, LogOut } from "lucide-react";
 
