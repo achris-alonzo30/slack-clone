@@ -9,10 +9,9 @@ import {
     DialogHeader,
     DialogContent,
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
-
 
 export const CreateWorkspaceModal = () => {
     const router = useRouter();
@@ -29,6 +28,7 @@ export const CreateWorkspaceModal = () => {
         e.preventDefault();
         mutate({ name: workspaceName }, {
             onSuccess: (workspaceId) => {
+                toast.success("Workspace created");
                 router.push(`/workspace/${workspaceId}`);
                 handleClose();
             }
