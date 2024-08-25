@@ -41,23 +41,17 @@ export const CreateWorkspaceModal = () => {
                 <DialogHeader>
                     <DialogTitle>Create your workspace</DialogTitle>
                 </DialogHeader>
-            </DialogContent>
-            <form className="space-y-4" onSubmit={handleSubmit}>
-                <fieldset>
-                    <label htmlFor="workspace-name">Workspace name</label>
-                    <Input 
+                <form className="space-y-4" onSubmit={handleSubmit}>
+                <Input 
                         required
                         autoFocus
                         minLength={3}
                         type="text" 
                         className="w-full"
-                        id="workspace-name" 
-                        name="workspace-name"
                         value={workspaceName}
                         placeholder="Workspace name e.g 'Acme Corp'" 
                         onChange={(e) => setWorkspaceName(e.target.value)}
                     />
-                </fieldset>
                 <aside className="flex justify-end">
                     <Button 
                         type="submit"
@@ -67,6 +61,8 @@ export const CreateWorkspaceModal = () => {
                     </Button>
                 </aside>
             </form>
+            </DialogContent>
+            
         </Dialog>
     );
 };

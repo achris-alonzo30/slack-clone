@@ -8,12 +8,13 @@ export const Modals = () => {
 
     // prevent hydration error
     useEffect(() => {
+        console.log("Mounted");
         setMounted(true);
     }, []);
 
     if (!mounted) return null;
 
-    return  (
+    return (
         <>
             <CreateWorkspaceModal />
         </>

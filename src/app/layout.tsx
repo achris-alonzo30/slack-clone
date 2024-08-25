@@ -26,8 +26,6 @@ export default function RootLayout({
     <ConvexAuthNextjsServerProvider>
       <html
         lang="en"
-        suppressHydrationWarning
-        suppressContentEditableWarning
       >
         <body className={cn(font.className, "antialiased")}>
           <ConvexClientProvider>

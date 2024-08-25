@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useModalState } from "@/features/workspaces/store/useModalState";
 import { useGetWorkspaces } from "@/features/workspaces/api/useGetWorkspaces";
-import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useModalState();
   const { signOut } = useAuthActions();
+  const [isOpen, setIsOpen] = useModalState();
 
   const { workspaces, isLoading } = useGetWorkspaces();
 

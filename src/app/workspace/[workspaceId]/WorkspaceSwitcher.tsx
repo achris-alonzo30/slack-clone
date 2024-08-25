@@ -42,7 +42,7 @@ export const WorkspaceSwitcher = () => {
                 >
                     {workspace?.name}
                     <span className="text-xs text-neutral-500">
-                        Active worlspace
+                        Active workspace
                     </span>
                 </DropdownMenuItem>
                 {filteredWorkspaces.map((w) => (

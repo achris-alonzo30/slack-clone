@@ -16,7 +16,6 @@ export default convexAuthNextjsMiddleware((req) => {
     return nextjsMiddlewareRedirect(req, "/");
   }
 
-  // TODO: Redirect user away from "/auth" once authenticated "/home"
 });
 
 export const config = { matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"] };
