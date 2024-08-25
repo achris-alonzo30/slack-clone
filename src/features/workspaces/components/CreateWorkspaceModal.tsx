@@ -30,7 +30,11 @@ export const CreateWorkspaceModal = () => {
             onSuccess: (workspaceId) => {
                 toast.success("Workspace created");
                 router.push(`/workspace/${workspaceId}`);
-                handleClose();
+                setOpen(false);
+                setWorkspaceName("");
+            },
+            onError: (error) => {
+                toast.error(error.message);
             }
         })
     };
@@ -42,27 +46,27 @@ export const CreateWorkspaceModal = () => {
                     <DialogTitle>Create your workspace</DialogTitle>
                 </DialogHeader>
                 <form className="space-y-4" onSubmit={handleSubmit}>
-                <Input 
+                    <Input
                         required
                         autoFocus
                         minLength={3}
-                        type="text" 
+                        type="text"
                         className="w-full"
                         value={workspaceName}
-                        placeholder="Workspace name e.g 'Acme Corp'" 
+                        placeholder="Workspace name e.g 'Acme Corp'"
                         onChange={(e) => setWorkspaceName(e.target.value)}
                     />
-                <aside className="flex justify-end">
-                    <Button 
-                        type="submit"
-                        disabled={false}
-                    >
-                        Create
-                    </Button>
-                </aside>
-            </form>
+                    <aside className="flex justify-end">
+                        <Button
+                            type="submit"
+                            disabled={false}
+                        >
+                            Create
+                        </Button>
+                    </aside>
+                </form>
             </DialogContent>
-            
+
         </Dialog>
     );
 };
