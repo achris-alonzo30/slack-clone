@@ -81,8 +81,8 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
             size="sm"
             disabled={pending}
             variant="outline"
-            className="w-full relative"
             onClick={() => signUpByOAuth("google")}
+            className="w-full flex items-center justify-center gap-x-2"
           >
             <FcGoogle className="size-5 absolute top-2 left-2.5" />
             Continue with Google
@@ -91,8 +91,8 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
             size="sm"
             disabled={pending}
             variant="outline"
-            className="w-full relative"
             onClick={() => signUpByOAuth("github")}
+            className="w-full flex items-center justify-center gap-x-2"
           >
             <FaGithub className="size-5 absolute top-2 left-2.5" />
             Continue with GitHub

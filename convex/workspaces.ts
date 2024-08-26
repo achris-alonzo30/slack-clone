@@ -37,6 +37,13 @@ export const getById = query({
             throw new Error("Client is not authenticated!")
         }
 
+        const member = await ctx.db
+            .query("members")
+            .withIndex("by_workspace_id_and_user_id", (q) => q.eq("workspaceId", workspaceId).eq("userId", userId))
+            .unique();
+
+        if (!member) return null;
+
         return await ctx.db.get(workspaceId);
     }
 })
