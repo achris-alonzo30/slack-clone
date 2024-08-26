@@ -2,6 +2,13 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
 
+const generateCode = () => {
+    return Array.from(
+        { length: 6 },
+        () => "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"[Math.floor(Math.random() * 36)]
+    ).join("");
+}
+
 export const get = query({
     args: {},
     handler: async (ctx) => {
@@ -57,7 +64,7 @@ export const create = mutation({
             throw new Error("Client is not authenticated!")
         }
 
-        const joinCode = crypto.randomUUID();
+        const joinCode = generateCode();
 
         const workspaceId = await ctx.db.insert("workspaces", {
             name,
