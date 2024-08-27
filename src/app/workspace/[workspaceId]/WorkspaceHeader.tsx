@@ -5,6 +5,7 @@ import {
     DropdownMenuTrigger,
     DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
+import { Hints } from "@/components/Hints";
 import { Button } from "@/components/ui/button";
 import { Doc } from "../../../../convex/_generated/dataModel";
 import { ChevronDown, ListFilter, SquarePen } from "lucide-react";
@@ -62,18 +63,26 @@ export const WorkspaceHeader = ({
                 </DropdownMenuContent>
             </DropdownMenu>
             <ul className="flex items-center gap-0.5">
-                <Button
-                    size="iconSm"
-                    variant="transparent"
-                >
-                    <ListFilter className="size-4" />
-                </Button>
-                <Button
-                    size="iconSm"
-                    variant="transparent"
-                >
-                    <SquarePen className="size-4" />
-                </Button>
+                <Hints label="Filter" side="bottom">
+                    <Button
+                        size="iconSm"
+                        variant="transparent"
+                    >
+                        <ListFilter className="size-4" />
+                        <span className="sr-only">Filter</span>
+                    </Button>
+                </Hints>
+
+                <Hints label="New Message" side="bottom">
+                    <Button
+                        size="iconSm"
+                        variant="transparent"
+                    >
+                        <SquarePen className="size-4" />
+                        <span className="sr-only">New Message</span>
+                    </Button>
+                </Hints>
+
             </ul>
         </nav>
     )
