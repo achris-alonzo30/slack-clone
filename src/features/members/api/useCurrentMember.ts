@@ -9,8 +9,8 @@ export const useCurrentMember = ({
 } : {
     workspaceId: Id<"workspaces">
 }) => {
-    const members = useQuery(api.members.get, { workspaceId });
-    const isLoading = members === undefined;
+    const member = useQuery(api.members.get, { workspaceId });
+    const isLoading = member === undefined;
 
-    return { members, isLoading }
+    return { member, isLoading }
 }
