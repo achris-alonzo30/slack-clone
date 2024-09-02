@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { Trash } from "lucide-react";
+import { useUpdateWorkspace } from "@/features/workspaces/api/useUpdateWorkspace";
 
 interface PreferencesModalProps {
     isOpen: boolean;
@@ -23,6 +24,10 @@ export const PreferencesModal = ({
     intialValue
 }: PreferencesModalProps) => {
     const [value, setValue] = useState(intialValue);
+
+    const { mutate, isPending } = useUpdateWorkspace();
+
+
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent className="p-0 bg-neutral-50 overflow-hidden">
