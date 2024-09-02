@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 export const CreateWorkspaceModal = () => {
     const router = useRouter();
     const [open, setOpen] = useWorkspaceModalState();
-    const { mutate } = useCreateWorkspace();
+    const { mutate, isPending } = useCreateWorkspace();
     const [workspaceName, setWorkspaceName] = useState("");
 
     const handleClose = () => {
@@ -49,9 +49,11 @@ export const CreateWorkspaceModal = () => {
                     <Input
                         required
                         autoFocus
-                        minLength={3}
                         type="text"
+                        minLength={3}
+                        maxLength={80}
                         className="w-full"
+                        disabled={isPending}
                         value={workspaceName}
                         placeholder="Workspace name e.g 'Acme Corp'"
                         onChange={(e) => setWorkspaceName(e.target.value)}
