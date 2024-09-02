@@ -3,13 +3,13 @@
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthActions } from "@convex-dev/auth/react";
-import { useModalState } from "@/features/workspaces/store/useModalState";
 import { useGetWorkspaces } from "@/features/workspaces/api/useGetWorkspaces";
+import { useWorkspaceModalState } from "@/features/workspaces/store/useWorkspaceModalState";
 
 export default function Home() {
   const router = useRouter();
   const { signOut } = useAuthActions();
-  const [isOpen, setIsOpen] = useModalState();
+  const [isOpen, setIsOpen] = useWorkspaceModalState();
 
   const { workspaces, isLoading } = useGetWorkspaces();
 
