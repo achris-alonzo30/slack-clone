@@ -6,9 +6,9 @@ import { Manrope } from "next/font/google";
 
 import { Modals } from "@/components/Modals";
 import { Toaster } from "@/components/ui/sonner";
+import { JotaiProvider } from "@/providers/JotaiProvider";
 import { ConvexClientProvider } from "@/providers/ConvexClientProviders";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
-
 
 const font = Manrope({ subsets: ["latin"] });
 
@@ -29,9 +29,11 @@ export default function RootLayout({
       >
         <body className={cn(font.className, "antialiased")}>
           <ConvexClientProvider>
-            <Toaster />
-            <Modals />
-            {children}
+            <JotaiProvider>
+              <Toaster />
+              <Modals />
+              {children}
+            </JotaiProvider>
           </ConvexClientProvider>
         </body>
       </html>
