@@ -7,6 +7,7 @@ import { useGetChannels } from "@/features/channels/api/useGetChannels";
 import { useGetWorkspaceById } from "@/features/workspaces/api/useGetWorkspaceById";
 import { useChannelModalState } from "@/features/channels/store/useChannelModalState";
 import { Loader2, TriangleAlert } from "lucide-react";
+import { useGetMember } from "@/features/members/api/useGetMember";
 
 
 export default function WorkspaceIdPage() {
@@ -14,26 +15,32 @@ export default function WorkspaceIdPage() {
     const workspaceId = useWorkspaceId();
     const [open, setOpen] = useChannelModalState();
     
-    const { workspace, isLoading: workspaceLoading } = useGetWorkspaceById({ workspaceId });
+    const { member, isLoading: memberLoading } = useGetMember({ workspaceId });
     const { channels, isLoading: channelsLoading } = useGetChannels({ workspaceId });
+    const { workspace, isLoading: workspaceLoading } = useGetWorkspaceById({ workspaceId });
+    
 
     const channelId = useMemo(() => channels?.[0]?._id, [channels]);
+    const isAdmin = useMemo(() => member?.role === "admin", [member]);
 
     useEffect(() => {
-        if (workspaceLoading || channelsLoading || !workspace) return;
+        if (workspaceLoading || channelsLoading || memberLoading || !member || !workspace) return;
 
         if (channelId) {
             router.push(`/workspace/${workspaceId}/channel/${channelId}`);
-        } else if (!open) {
+        } else if (!open && isAdmin) {
             setOpen(true);
         }
     }, [
         open,
-        setOpen,
         router,
+        member,
+        setOpen,
+        isAdmin,
         channelId,
         workspace,
         workspaceId,
+        memberLoading,
         channelsLoading,
         workspaceLoading,
     ]);
@@ -55,6 +62,11 @@ export default function WorkspaceIdPage() {
         )
     };
 
-    return null;
+    return (
+        <main className="h-full flex-1 flex items-center justify-center flex-col gap-2">
+            <TriangleAlert className="size-8 text-rose-500" />
+            <span className="text-neutral-500 text-sm font-medium">No channels found</span>
+        </main>
+    );
 }
 

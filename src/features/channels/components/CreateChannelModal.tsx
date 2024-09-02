@@ -34,19 +34,17 @@ export const CreateChannelModal = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        mutate({ 
-            name: channelName, 
-            workspaceId 
+        mutate({
+            name: channelName,
+            workspaceId
         }, {
-            onSuccess: (data) => {
-                if (data) {
-                    toast.success("Channel created successfully");
-                    handleClose();
-                    router.push(`/workspace/${workspaceId}/channels/${data}`);
-                }
+            onSuccess: (channelId) => {
+                toast.success("Channel created successfully");
+                handleClose();
+                router.push(`/workspace/${workspaceId}/channel/${channelId}`);
             },
-            onError: (error) => {
-                toast.error(error.message);
+            onError: () => {
+                toast.error("Failed to create channel");
             }
         });
     };
@@ -67,8 +65,8 @@ export const CreateChannelModal = () => {
                         className="w-full"
                         value={channelName}
                         disabled={isPending}
+                        onChange={handleChange}
                         placeholder="e.g. 'General'"
-                        onChange={(e) => setChannelName(e.target.value)}
                     />
                     <aside className="flex justify-end">
                         <Button
