@@ -2,14 +2,27 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useWorkspaceId } from "@/hooks/useWorkspaceId";
+import { useGetWorkspacesInfoById } from "@/features/workspaces/api/useGetInfoById";
+
 import { Button } from "@/components/ui/button";
 import VerificationInput from "react-verification-input";
-import { useWorkspaceId } from "@/hooks/useWorkspaceId";
+import { Loader2 } from "lucide-react";
+
 
 export default function JoinPage() {
     const workspaceId = useWorkspaceId();
 
-    
+    const { workspaces, isLoading } = useGetWorkspacesInfoById({ workspaceId });
+    const { joinWorkspace } = useJoinWorkspace();
+
+    if (isLoading) {
+        return (
+            <main className="h-full flex items-center justify-center">
+                <Loader2 className="size-8 animate-spin text-muted-foreground" />
+            </main>
+        )
+    };
     return (
         <main className="h-full flex flex-col gap-y-8 items-center justify-center bg-neutral-50 p-8 rounded-lg shadow-md">
             <Image 
@@ -20,7 +33,7 @@ export default function JoinPage() {
             />
             <section className="flex flex-col gap-y-4 items-center justify-center max-w-md">
                 <aside className="flex flex-col gap-y-2 items-center justify-center">
-                    <h1 className="text-2xl font-bold">Join Workspace</h1>
+                    <h1 className="text-2xl font-bold">Join {workspaces?.name}</h1>
                     <p className="text-sm text-neutral-500">Enter workspace code to join</p>
                 </aside>
                 <VerificationInput 
@@ -41,7 +54,7 @@ export default function JoinPage() {
                     size="lg"
                     variant="outline"
                 >
-                    <Link href="/">Cancel</Link>
+                    <Link href="/">Back To Home</Link>
                 </Button>
             </section>
         </main>
