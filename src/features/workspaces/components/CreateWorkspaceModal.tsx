@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useModalState } from "../store/useModalState";
+import { useModalState } from "../store/useWorkspaceModalState";
 import { useCreateWorkspace } from "../api/useCreateWorkspace";
 
 import {

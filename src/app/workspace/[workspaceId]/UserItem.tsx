@@ -29,7 +29,7 @@ const userItemVariants = cva(
 
 
 interface UserItemProps {
-    id: Id<"users">;
+    id: Id<"members">;
     label?: string;
     image?: string;
     variant?: VariantProps<typeof userItemVariants>["variant"];
@@ -53,7 +53,7 @@ export const UserItem = ({
             <Link href={`/workspace/${workspaceId}/member/${id}`}>
                 <Avatar className="size-5 rounded-md mr-1">
                     <AvatarImage className="object-cover rounded-md" src={image} />
-                    <AvatarFallback className="text-sm font-medium rounded-md">{avatarFallback}</AvatarFallback>
+                    <AvatarFallback className="rounded-md text-sm font-medium text-neutral-300 bg-neutral-950">{avatarFallback}</AvatarFallback>
                 </Avatar>
                 <span className="text-sm font-medium truncate">{label}</span>
             </Link>

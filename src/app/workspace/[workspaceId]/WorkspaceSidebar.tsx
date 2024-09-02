@@ -10,6 +10,7 @@ import { AlertTriangle, HashIcon, Loader, MessageSquareText, SendHorizonal } fro
 import { SidebarItem } from "./SidebarItem";
 import { WorkspaceHeader } from "./WorkspaceHeader";
 import { WorkspaceSection } from "./WorkspaceSection";
+import { UserItem } from "./UserItem";
 
 
 
@@ -69,11 +70,21 @@ export const WorkspaceSidebar = () => {
                     />
                 ))}
             </WorkspaceSection>
-            {members?.map((item) => (
-                <div key={item._id} className="text-neutral-300 text-sm">
-                    {item.user.name}
-                </div>
-            ))}
+            <WorkspaceSection
+                label="Direct Messages"
+                hint="New Direct Messages"
+                onNew={() => { }}
+            >
+               {members?.map((item) => (
+                <UserItem
+                    id={item._id}
+                    key={item._id}
+                    label={item.user.name}
+                    image={item.user.image}
+                />
+            ))} 
+            </WorkspaceSection>
+            
         </aside>
     )
 }

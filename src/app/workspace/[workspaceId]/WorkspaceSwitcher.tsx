@@ -1,9 +1,9 @@
 
 import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-import { useModalState } from "@/features/workspaces/store/useModalState";
 import { useGetWorkspaces } from "@/features/workspaces/api/useGetWorkspaces";
 import { useGetWorkspaceById } from "@/features/workspaces/api/useGetWorkspaceById";
+import { useWorkspaceModalState } from "@/features/workspaces/store/useWorkspaceModalState";
 
 import { Loader, Plus } from "lucide-react";
 
@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 export const WorkspaceSwitcher = () => {
     const router = useRouter();
     const workspaceId = useWorkspaceId();
-    const [_open, setOpen] = useModalState();
+    const [_open, setOpen] = useWorkspaceModalState();
     const { workspaces, isLoading: workspacesLoading } = useGetWorkspaces();
     const { workspace, isLoading: workspaceLoading } = useGetWorkspaceById({ workspaceId });
 
