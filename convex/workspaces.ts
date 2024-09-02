@@ -103,6 +103,8 @@ export const update = mutation({
             throw new Error("Unauthorized")
         };
 
-        await ctx.db.patch(workspaceId, { name })
+        await ctx.db.patch(workspaceId, { name });
+
+        return workspaceId;
     }
 })
