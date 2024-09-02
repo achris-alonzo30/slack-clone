@@ -1,15 +1,20 @@
 
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
+import { useGetChannels } from "@/features/channels/api/useGetChannels";
 import { useCurrentMember } from "@/features/members/api/useCurrentMember";
 import { useGetWorkspaceById } from "@/features/workspaces/api/useGetWorkspaceById";
 
-import { AlertTriangle, Loader, MessageSquareText, SendHorizonal } from "lucide-react";
+import { AlertTriangle, HashIcon, Loader, MessageSquareText, SendHorizonal } from "lucide-react";
 
-import { WorkspaceHeader } from "./WorkspaceHeader";
 import { SidebarItem } from "./SidebarItem";
+import { WorkspaceHeader } from "./WorkspaceHeader";
+import { WorkspaceSection } from "./WorkspaceSection";
+
 
 export const WorkspaceSidebar = () => {
     const workspaceId = useWorkspaceId();
+
+    const { channels, isLoading: isLoadingChannels } = useGetChannels({ workspaceId });
     const { member, isLoading: isLoadingMembers } = useCurrentMember({ workspaceId });
     const { workspace, isLoading: isLoadingWorkspace } = useGetWorkspaceById({ workspaceId });
 
@@ -35,7 +40,7 @@ export const WorkspaceSidebar = () => {
     return (
         <aside className="flex flex-col bg-[#5e2c5f] h-full">
             <WorkspaceHeader workspace={workspace} isAdmin={member!.role === "admin"} />
-            <div className="flex flex-cil px-2 mt-3">
+            <div className="flex flex-col px-2 mt-3">
                 <SidebarItem
                     id="threads"
                     label="Threads"
@@ -47,6 +52,20 @@ export const WorkspaceSidebar = () => {
                     icon={SendHorizonal}
                 />
             </div>
+            <WorkspaceSection
+                label="Channels"
+                hint="New Channels"
+                onNew={() => { }}
+            >
+                {channels?.map((item) => (
+                    <SidebarItem
+                        id={item._id}
+                        key={item._id}
+                        icon={HashIcon}
+                        label={item.name}
+                    />
+                ))}
+            </WorkspaceSection>
         </aside>
     )
 }

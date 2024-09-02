@@ -22,7 +22,7 @@ export const WorkspaceSwitcher = () => {
     const { workspaces, isLoading: workspacesLoading } = useGetWorkspaces();
     const { workspace, isLoading: workspaceLoading } = useGetWorkspaceById({ workspaceId });
 
-    const filteredWorkspaces = workspaces!.filter((w) => w._id !== workspaceId);
+    const filteredWorkspaces = workspaces?.filter((w) => w._id !== workspaceId);
 
     return (
         <DropdownMenu>
@@ -45,7 +45,7 @@ export const WorkspaceSwitcher = () => {
                         Active workspace
                     </span>
                 </DropdownMenuItem>
-                {filteredWorkspaces.map((w) => (
+                {filteredWorkspaces?.map((w) => (
                     <DropdownMenuItem
                         key={w._id}
                         onClick={() => router.push(`/workspace/${w._id}`)}
