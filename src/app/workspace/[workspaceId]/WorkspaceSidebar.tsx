@@ -1,7 +1,8 @@
 
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-import { useGetChannels } from "@/features/channels/api/useGetChannels";
 import { useGetMember } from "@/features/members/api/useGetMember";
+import { useGetChannels } from "@/features/channels/api/useGetChannels";
+import { useGetAllMembers } from "@/features/members/api/useGetAllMembers";
 import { useGetWorkspaceById } from "@/features/workspaces/api/useGetWorkspaceById";
 
 import { AlertTriangle, HashIcon, Loader, MessageSquareText, SendHorizonal } from "lucide-react";
@@ -11,14 +12,16 @@ import { WorkspaceHeader } from "./WorkspaceHeader";
 import { WorkspaceSection } from "./WorkspaceSection";
 
 
+
 export const WorkspaceSidebar = () => {
     const workspaceId = useWorkspaceId();
 
+    const { members, isLoading: isLoadingAllMembers } = useGetAllMembers({ workspaceId });
     const { channels, isLoading: isLoadingChannels } = useGetChannels({ workspaceId });
-    const { member, isLoading: isLoadingMembers } = useGetMember({ workspaceId });
+    const { member, isLoading: isLoadingMember } = useGetMember({ workspaceId });
     const { workspace, isLoading: isLoadingWorkspace } = useGetWorkspaceById({ workspaceId });
 
-    if (isLoadingMembers || isLoadingWorkspace) {
+    if (isLoadingMember || isLoadingWorkspace) {
         return (
             <div className="flex flex-col bg-[#5e2c5f] h-full items-center justify-center">
                 <Loader className="size-5 animate-spin text-white" />
@@ -66,6 +69,11 @@ export const WorkspaceSidebar = () => {
                     />
                 ))}
             </WorkspaceSection>
+            {members?.map((item) => (
+                <div key={item._id} className="text-neutral-300 text-sm">
+                    {item.user.name}
+                </div>
+            ))}
         </aside>
     )
 }
