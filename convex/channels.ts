@@ -79,3 +79,31 @@ export const create = mutation({
         return channelId;
     }
 });
+
+export const update = mutation({
+    args: {
+        channelName: v.string(),
+        channelId: v.id("channels"),
+        workspaceId: v.id("workspaces"),
+    },
+    handler: async (ctx, { channelId, channelName, workspaceId }) => {
+        const userId = await getAuthUserId(ctx);
+
+        if (!userId) throw new Error("Unauthorized");
+
+        const member = await ctx.db
+            .query("members")
+            .withIndex("by_workspace_id_and_user_id", (q) => q.eq("workspaceId", workspaceId).eq("userId", userId))
+            .unique();
+
+        if (!member || member.role !== "admin") throw new Error("Unauthorized");
+        
+        const parsedChannelName = channelName.replace(/\s+/g, "-").toLowerCase();
+
+        await ctx.db.patch(channelId, {
+            name: parsedChannelName,
+        });
+
+        return channelId;
+    }
+})
