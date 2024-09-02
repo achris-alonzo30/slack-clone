@@ -1,7 +1,7 @@
 
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { useGetChannels } from "@/features/channels/api/useGetChannels";
-import { useCurrentMember } from "@/features/members/api/useCurrentMember";
+import { useGetMember } from "@/features/members/api/useGetMember";
 import { useGetWorkspaceById } from "@/features/workspaces/api/useGetWorkspaceById";
 
 import { AlertTriangle, HashIcon, Loader, MessageSquareText, SendHorizonal } from "lucide-react";
@@ -15,7 +15,7 @@ export const WorkspaceSidebar = () => {
     const workspaceId = useWorkspaceId();
 
     const { channels, isLoading: isLoadingChannels } = useGetChannels({ workspaceId });
-    const { member, isLoading: isLoadingMembers } = useCurrentMember({ workspaceId });
+    const { member, isLoading: isLoadingMembers } = useGetMember({ workspaceId });
     const { workspace, isLoading: isLoadingWorkspace } = useGetWorkspaceById({ workspaceId });
 
     if (isLoadingMembers || isLoadingWorkspace) {
