@@ -5,7 +5,7 @@ import { getAuthUserId } from "@convex-dev/auth/server";
 const generateCode = () => {
     return Array.from(
         { length: 6 },
-        () => "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"[Math.floor(Math.random() * 36)]
+        () => "0123456789abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random() * 36)]
     ).join("");
 }
 
@@ -143,6 +143,8 @@ export const remove = mutation({
         }
 
         await ctx.db.delete(workspaceId);
+
+        return workspaceId;
     }
 });
 
@@ -167,6 +169,47 @@ export const newJoinCode = mutation({
         const joinCode = generateCode();
 
         await ctx.db.patch(workspaceId, { joinCode });
+
+        return workspaceId;
+    }
+});
+
+export const join = mutation({
+    args: {
+        joinCode: v.string(),
+        workspaceId: v.id("workspaces"),
+    },
+    handler: async (ctx, { joinCode, workspaceId }) => {
+        const userId = await getAuthUserId(ctx);
+
+        if (!userId) {
+            throw new Error("Client is not authenticated!")
+        }
+
+        const workspace = await ctx.db.get(workspaceId);
+
+        if (!workspace) {
+            throw new Error("Workspace not found")
+        }
+
+        if (workspace.joinCode !== joinCode.toLowerCase()) {
+            throw new Error("Invalid join code")
+        }
+
+        const existingMember = await ctx.db
+            .query("members")
+            .withIndex("by_workspace_id_and_user_id", (q) => q.eq("workspaceId", workspaceId).eq("userId", userId))
+            .unique();
+
+        if (existingMember) {
+            throw new Error("Already a member of this workspace")
+        }
+
+        await ctx.db.insert("members", {
+            userId,
+            workspaceId,
+            role: "member",
+        });
 
         return workspaceId;
     }
