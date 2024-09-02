@@ -13,6 +13,7 @@ import { Hints } from "@/components/Hints";
 import { Button } from "@/components/ui/button";
 import { PreferencesModal } from "./PreferencesModal";
 import { ChevronDown, ListFilter, SquarePen } from "lucide-react";
+import { InviteModal } from "./InviteModal";
 
 
 export const WorkspaceHeader = ({
@@ -22,12 +23,19 @@ export const WorkspaceHeader = ({
     isAdmin: boolean;
     workspace: Doc<"workspaces">
 }) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [preferencesModalIsOpen, setPreferencesModalIsOpen] = useState(false);
+    const [inviteModalIsOpen, setInviteModalIsOpen] = useState(false);
     return (
         <>
+            <InviteModal 
+                isOpen={inviteModalIsOpen}
+                setIsOpen={setInviteModalIsOpen}
+                name={workspace.name}
+                joinCode={workspace.joinCode}
+            />
             <PreferencesModal
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
+                isOpen={preferencesModalIsOpen}
+                setIsOpen={setPreferencesModalIsOpen}
                 intialValue={workspace.name} 
             />
             <nav className="flex items-center justify-between h-[49px] gap-0.5 px-4">
@@ -64,7 +72,7 @@ export const WorkspaceHeader = ({
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem
-                                    onClick={() => setIsOpen(true)}
+                                    onClick={() => setPreferencesModalIsOpen(true)}
                                     className="w-full cursor-pointer py-1 text-sm text-neutral-700"
                                 >
                                     Preferences
