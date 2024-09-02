@@ -84,16 +84,19 @@ export const update = mutation({
     args: {
         channelName: v.string(),
         channelId: v.id("channels"),
-        workspaceId: v.id("workspaces"),
     },
-    handler: async (ctx, { channelId, channelName, workspaceId }) => {
+    handler: async (ctx, { channelId, channelName }) => {
         const userId = await getAuthUserId(ctx);
 
         if (!userId) throw new Error("Unauthorized");
 
+        const channel = await ctx.db.get(channelId);
+
+        if (!channel) throw new Error("Channel not found");
+
         const member = await ctx.db
             .query("members")
-            .withIndex("by_workspace_id_and_user_id", (q) => q.eq("workspaceId", workspaceId).eq("userId", userId))
+            .withIndex("by_workspace_id_and_user_id", (q) => q.eq("workspaceId", channel.workspaceId).eq("userId", userId))
             .unique();
 
         if (!member || member.role !== "admin") throw new Error("Unauthorized");
