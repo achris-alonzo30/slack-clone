@@ -33,6 +33,27 @@ export const get = query({
 
         return workspaces;
     }
+});
+
+export const getInfoById = query({
+    args: { workspaceId: v.id("workspaces") },
+    handler: async (ctx, { workspaceId }) => {
+        const userId = await getAuthUserId(ctx);
+
+        if (userId === null) return null;
+        
+        const member = await ctx.db
+            .query("members")
+            .withIndex("by_workspace_id_and_user_id", (q) => q.eq("workspaceId", workspaceId).eq("userId", userId))
+            .unique();
+        
+        const workspace = await ctx.db.get(workspaceId);
+
+        return {
+            name: workspace?.name,
+            isMember: !!member
+        }
+    }
 })
 
 export const getById = query({
