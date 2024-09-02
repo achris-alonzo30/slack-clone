@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useWorkspaceModalState } from "../store/useWorkspaceModalState";
-import { useCreateWorkspace } from "../api/useCreateWorkspace";
+import { useChannelModalState } from "../store/useChannelModalState";
 
 import {
     Dialog,
@@ -13,10 +12,10 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export const CreateWorkspaceModal = () => {
+
+export const CreateChannelModal = () => {
     const router = useRouter();
-    const [open, setOpen] = useWorkspaceModalState();
-    const { mutate } = useCreateWorkspace();
+    const [open, setOpen] = useChannelModalState();
     const [workspaceName, setWorkspaceName] = useState("");
 
     const handleClose = () => {
@@ -26,24 +25,14 @@ export const CreateWorkspaceModal = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        mutate({ name: workspaceName }, {
-            onSuccess: (workspaceId) => {
-                toast.success("Workspace created");
-                router.push(`/workspace/${workspaceId}`);
-                setOpen(false);
-                setWorkspaceName("");
-            },
-            onError: (error) => {
-                toast.error(error.message);
-            }
-        })
+       
     };
 
     return (
         <Dialog open={open} onOpenChange={handleClose}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Create your workspace</DialogTitle>
+                    <DialogTitle>Add Channel</DialogTitle>
                 </DialogHeader>
                 <form className="space-y-4" onSubmit={handleSubmit}>
                     <Input
