@@ -45,9 +45,9 @@ export const SidebarItem = ({
             variant="transparent"
             className={cn(sidebarItemVariants({ variant }))}
         >
-            <Link href={`/workspace/${workspaceId}/channel/${id}`} className="">
-                <Icon className="size-5" />
-                <span>{label}</span>
+            <Link href={`/workspace/${workspaceId}/channel/${id}`}>
+                <Icon className="size-3.5 mr-1 shrink-0" />
+                <span className="text-sm truncate">{label}</span>
             </Link>
         </Button>
     )
