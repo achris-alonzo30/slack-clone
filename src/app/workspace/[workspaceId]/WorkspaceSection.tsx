@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 interface WorkspaceSectionProps {
     label: string;
     hint: string;
-    onNew: () => void;
+    onNew?: () => void ;
     children: React.ReactNode;
 }
 

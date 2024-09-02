@@ -11,11 +11,14 @@ import { SidebarItem } from "./SidebarItem";
 import { WorkspaceHeader } from "./WorkspaceHeader";
 import { WorkspaceSection } from "./WorkspaceSection";
 import { UserItem } from "./UserItem";
+import { useChannelModalState } from "@/features/channels/store/useChannelModalState";
 
 
 
 export const WorkspaceSidebar = () => {
     const workspaceId = useWorkspaceId();
+
+    const [_open, setOpen] = useChannelModalState();
 
     const { members, isLoading: isLoadingAllMembers } = useGetAllMembers({ workspaceId });
     const { channels, isLoading: isLoadingChannels } = useGetChannels({ workspaceId });
@@ -59,7 +62,7 @@ export const WorkspaceSidebar = () => {
             <WorkspaceSection
                 label="Channels"
                 hint="New Channels"
-                onNew={() => { }}
+                onNew={member.role === "admin" ? () => setOpen(true) : undefined}
             >
                 {channels?.map((item) => (
                     <SidebarItem
