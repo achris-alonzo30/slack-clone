@@ -110,3 +110,32 @@ export const update = mutation({
         return channelId;
     }
 })
+
+
+export const remove = mutation({
+    args: {
+        channelId: v.id("channels"),
+    },
+    handler: async (ctx, { channelId }) => {
+        const userId = await getAuthUserId(ctx);
+
+        if (!userId) throw new Error("Unauthorized");
+
+        const channel = await ctx.db.get(channelId);
+
+        if (!channel) throw new Error("Channel not found");
+
+        const member = await ctx.db
+            .query("members")
+            .withIndex("by_workspace_id_and_user_id", (q) => q.eq("workspaceId", channel.workspaceId).eq("userId", userId))
+            .unique();
+        
+        if (!member || member.role !== "admin") throw new Error("Unauthorized");
+
+        // TODO: Delete all messages in the channel
+
+        await ctx.db.delete(channelId);
+
+        return channelId;
+    }
+})
