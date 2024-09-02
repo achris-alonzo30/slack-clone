@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { useJoin } from "@/features/workspaces/api/useJoin";
@@ -12,6 +13,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import VerificationInput from "react-verification-input";
+
 
 export default function JoinPage() {
     const router = useRouter();
@@ -34,6 +36,14 @@ export default function JoinPage() {
             }
         });
     };
+
+    const isMember = useMemo(() => workspaces?.isMember, [workspaces?.isMember]);
+
+    useEffect(() => {
+        if (isMember) {
+            router.push(`/workspaces/${workspaceId}`);
+        }
+    }, [isMember, router, workspaceId])
 
     if (isLoading) {
         return (
