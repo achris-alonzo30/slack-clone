@@ -16,11 +16,16 @@ import { Button } from "@/components/ui/button";
 export const CreateChannelModal = () => {
     const router = useRouter();
     const [open, setOpen] = useChannelModalState();
-    const [workspaceName, setWorkspaceName] = useState("");
+    const [channelName, setChannelName] = useState("");
 
     const handleClose = () => {
         setOpen(false);
-        setWorkspaceName("");
+        setChannelName("");
+    }
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value.replace(/\s+/g, "-").toLowerCase();
+        setChannelName(value);
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -38,12 +43,14 @@ export const CreateChannelModal = () => {
                     <Input
                         required
                         autoFocus
-                        minLength={3}
                         type="text"
+                        minLength={3}
+                        maxLength={80}
                         className="w-full"
-                        value={workspaceName}
-                        placeholder="Workspace name e.g 'Acme Corp'"
-                        onChange={(e) => setWorkspaceName(e.target.value)}
+                        value={channelName}
+                        disabled={false}
+                        placeholder="e.g. 'General'"
+                        onChange={(e) => setChannelName(e.target.value)}
                     />
                     <aside className="flex justify-end">
                         <Button
