@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useConfirm } from "@/hooks/useConfirm";
 import { useChannelId } from "@/hooks/useChannelId";
+import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { useUpdateChannel } from "@/features/channels/api/useUpdateChannel";
 import { useDeleteChannel } from "@/features/channels/api/useDeleteChannel";
 
@@ -22,7 +24,9 @@ import { Button } from "@/components/ui/button";
 
 
 export const Header = ({ channelName }: { channelName: string }) => {
+    const router = useRouter();
     const channelId = useChannelId();
+    const workspaceId = useWorkspaceId();
 
     const [ConfirmDialog, confirm] = useConfirm(
         "Are you sure you want to delete this channel?",
@@ -64,6 +68,7 @@ export const Header = ({ channelName }: { channelName: string }) => {
         deleteChannel({ channelId }, {
             onSuccess: () => {
                 toast.success("Channel deleted");
+                router.push(`/workspace/${workspaceId}`);
             },
             onError: () => {
                 toast.error("Failed to delete channel");
