@@ -21,7 +21,7 @@ import {
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
+import { useGetMember } from "@/features/members/api/useGetMember";
 
 export const Header = ({ channelName }: { channelName: string }) => {
     const router = useRouter();
@@ -35,8 +35,15 @@ export const Header = ({ channelName }: { channelName: string }) => {
     const [editOpen, setEditOpen] = useState(false);
     const [value, setValue] = useState(channelName);
 
+    const { member } = useGetMember({ workspaceId });   
     const { mutate: updateChannel, isPending: isUpdatingChannel } = useUpdateChannel();
     const { mutate: deleteChannel, isPending: isDeletingChannel } = useDeleteChannel();
+
+    const handleEditOpen = (value: boolean) => {
+        if (member?.role !== "admin") return;
+
+        setEditOpen(value);
+    }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.replace(/\s+/g, "-").toLowerCase();
@@ -96,7 +103,7 @@ export const Header = ({ channelName }: { channelName: string }) => {
                     <DialogTitle># {channelName}</DialogTitle>
                 </DialogHeader>
                 <div className="px-4 pb-4 flex flex-col gap-y-2">
-                    <Dialog open={editOpen} onOpenChange={setEditOpen}>
+                    <Dialog open={editOpen} onOpenChange={handleEditOpen}>
                         <DialogTrigger asChild>
                             <div className="px-5 py-4 bg-neutral-50 rounded-lg border cursor-pointer hover:bg-neutral-100">
                                 <div className="flex items-center justify-between">
@@ -131,7 +138,10 @@ export const Header = ({ channelName }: { channelName: string }) => {
                         </DialogContent>
                     </Dialog>
 
-                    <button onClick={handleDelete} className="flex items-center gap-x-2 px-5 py-4 bg-neutral-50 rounded-lg border cursor-pointer hover:bg-neutral-100 text-rose-500">
+                    <button 
+                        onClick={handleDelete} 
+                        disabled={isDeletingChannel}
+                        className="flex items-center gap-x-2 px-5 py-4 bg-neutral-50 rounded-lg border cursor-pointer hover:bg-neutral-100 text-rose-500">
                         <Trash className="size-4" />
                         <p className="text-sm font-semibold">Delete channel</p>
                     </button>
