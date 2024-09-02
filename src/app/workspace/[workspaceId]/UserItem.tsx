@@ -55,7 +55,7 @@ export const UserItem = ({
                     <AvatarImage className="object-cover rounded-md" src={image} />
                     <AvatarFallback className="rounded-md text-sm font-medium text-neutral-300 bg-neutral-950">{avatarFallback}</AvatarFallback>
                 </Avatar>
-                <span className="text-sm font-medium truncate">{label}</span>
+                <span className="text-sm font-medium truncate text-neutral-50">{label}</span>
             </Link>
 
         </Button>
