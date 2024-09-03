@@ -34,7 +34,7 @@ export default function ChannelPage() {
         <main className="flex flex-col h-full">
             <Header channelName={channel.name} />
             <div className="flex-1" />
-            <ChatInput />
+            <ChatInput placeholder="Send a message" />
         </main>
     )
 }

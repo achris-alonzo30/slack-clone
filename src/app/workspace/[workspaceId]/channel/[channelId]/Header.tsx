@@ -97,7 +97,6 @@ export const Header = ({ channelName }: { channelName: string }) => {
                         <FaChevronDown className="size-2.5 ml-2" />
                     </Button>
                 </DialogTrigger>
-            </Dialog>
             <DialogContent className="p-0 bg-neutral-100 overflow-hidden">
                 <DialogHeader className="p-4 border-b bg-neutral-50">
                     <DialogTitle># {channelName}</DialogTitle>
@@ -150,6 +149,7 @@ export const Header = ({ channelName }: { channelName: string }) => {
                     )}
                 </div>
             </DialogContent>
+            </Dialog>
         </header>
     )
 }
