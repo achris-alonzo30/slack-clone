@@ -1,3 +1,4 @@
+import Editor from "@/components/Editor"
 
 export const ChatInput = () => {
     return (
