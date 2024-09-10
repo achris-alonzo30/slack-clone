@@ -34,9 +34,9 @@ const schema = defineSchema({
 
   messages: defineTable({
     body: v.string(),
-    updatedAt: v.number(),
     memberId: v.id("members"),
     workspaceId: v.id("workspaces"),
+    updatedAt: v.optional(v.number()),
     image: v.optional(v.id("_storage")),
     channelId: v.optional(v.id("channels")),
     parentMessageId: v.optional(v.id("messages")),
