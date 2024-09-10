@@ -7,9 +7,18 @@ import { useCreateMessage } from "@/features/messages/api/useCreateMessage";
 
 
 import { toast } from "sonner";
+import { useGenerateUploadURL } from "@/features/upload/api/useGenerateUploadURL";
+import { Id } from "../../../../../../convex/_generated/dataModel";
 
 
 const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
+
+type CreateMessageValues = {
+    body: string;
+    channelId: Id<"channels">;
+    workspaceId: Id<"workspaces">;
+    image: Id<"_storage"> | undefined;
+}
 
 export const ChatInput = ({
     placeholder
@@ -24,7 +33,8 @@ export const ChatInput = ({
     const workspaceId = useWorkspaceId();
     const channelId = useChannelId();
 
-    const { mutate } = useCreateMessage();
+    const { mutate: createMessage } = useCreateMessage();
+    const { mutate: generateUploadURL } = useGenerateUploadURL();
 
     const handleSubmit = async ({
         body,
@@ -35,13 +45,38 @@ export const ChatInput = ({
     }) => {
         try {
             setIsPending(true);
-            await mutate({
+            innerRef?.current?.enable(false);
+
+            const values: CreateMessageValues = {
                 body,
                 channelId,
-                workspaceId
-            }, { 
-                throwError: true 
-            });
+                workspaceId,
+                image: undefined
+            }
+
+            if (image) {
+                const url = await generateUploadURL({}, {
+                    throwError: true
+                });
+
+                if (!url) throw new Error("Failed to generate upload URL");
+
+                const res = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": image.type
+                    },
+                    body: image
+                });
+
+                if (!res.ok) throw new Error("Failed to upload image");
+
+                const { storageId } = await res.json();
+
+                values.image = storageId;
+            }
+
+            await createMessage(values, { throwError: true });
             // Clear the after submitting the message
             setEditoryKey((prevKey) => prevKey + 1)
         } catch (error) {
@@ -49,6 +84,7 @@ export const ChatInput = ({
             toast.error("Failed to send message");
         } finally {
             setIsPending(false);
+            innerRef?.current?.enable(true);
         }
     }
 
