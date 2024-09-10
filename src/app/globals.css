@@ -125,3 +125,8 @@ body,
   @apply truncate;
 }
 
+.messages-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #dcdcdc #f8f8f8;
+}
+
