@@ -19,7 +19,7 @@ export const ChatInput = ({
         body: string;   
         image: File | null;
     }) => {
-
+        
     }
 
     return (
