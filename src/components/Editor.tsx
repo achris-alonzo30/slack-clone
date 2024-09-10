@@ -213,11 +213,16 @@ const Editor = ({
 
                 </div>
             </div>
-            <div className="p-2 text-[10px] text-neutral-500 flex justify-end">
-                <p>
-                    <strong>Shift + Return</strong> to add a new line
-                </p>
-            </div>
+            {variant === "create" && (
+                <div className={cn("p-2 text-[10px] text-neutral-500 flex justify-end opacity-0 transition",
+                    !isEmpty && "opacity-100"
+                )}>
+                    <p>
+                        <strong>Shift + Return</strong> to add a new line
+                    </p>
+                </div>
+            )}
+
         </div>
     )
 }
