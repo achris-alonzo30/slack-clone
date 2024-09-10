@@ -89,7 +89,14 @@ const Editor = ({
                         enter: {
                             key: "Enter",
                             handler: () => {
-                                // Submit the form
+                                const text = quill.getText();
+                                const addedImage = imageElRef.current?.files?.[0] || null;
+                                const isEmpty = !addedImage && text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+
+                                if (isEmpty) return;
+
+                                const body = JSON.stringify(quill.getContents());
+                                submitRef.current({ body, image: addedImage });
                             }
                         },
                         shift_enter: {
@@ -129,7 +136,7 @@ const Editor = ({
     }, [innerRef]);
 
     // Remove html elements and check if the text is empty
-    const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+    const isEmpty = !image && text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
 
     const toggleToolbarVisibility = () => {
         setIsToolbarVisible((c) => !c);
@@ -224,14 +231,19 @@ const Editor = ({
                                 size="sm"
                                 variant="outline"
                                 disabled={disabled}
-                                onClick={() => { }}
+                                onClick={onCancel}
                             >
                                 Cancel
                             </Button>
                             <Button
                                 size="sm"
                                 disabled={disabled || isEmpty}
-                                onClick={() => { }}
+                                onClick={() => {
+                                    onSubmit({
+                                        body: JSON.stringify(quillRef.current?.getContents()),
+                                        image
+                                    })
+                                }}
                                 className="bg-[#007a5a] hover:bg-[#007a5a]/90 text-neutral-50"
                             >
                                 Save
@@ -241,7 +253,12 @@ const Editor = ({
                     {variant === "create" && (
                         <Button
                             size="iconSm"
-                            onClick={() => { }}
+                            onClick={() => {
+                                onSubmit({
+                                    body: JSON.stringify(quillRef.current?.getContents()),
+                                    image
+                                })
+                            }}
                             disabled={disabled || isEmpty}
                             className={cn("ml-auto",
                                 isEmpty ?

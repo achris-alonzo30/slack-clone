@@ -11,12 +11,23 @@ export const ChatInput = ({
     placeholder: string;
 }) => {
     const innerRef = useRef<Quill | null>(null);
+
+    const handleSubmit = ({
+        body,
+        image
+    }: {
+        body: string;   
+        image: File | null;
+    }) => {
+
+    }
+
     return (
         <div className="px-5 w-full">
             <Editor 
-                onSubmit={() => {}}
                 disabled={false}
                 innerRef={innerRef}
+                onSubmit={handleSubmit}
                 placeholder={placeholder}
             />
         </div>
