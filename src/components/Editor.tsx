@@ -16,6 +16,7 @@ import { PiTextAa } from "react-icons/pi";
 import { ImageIcon, Smile } from "lucide-react";
 
 import { Hints } from "./Hints";
+import { EmojiPopover } from "./EmojiPopover";
 import { Button } from "@/components/ui/button";
 
 type EditorValue = {
@@ -136,6 +137,12 @@ const Editor = ({
         }
     }
 
+    const onEmojiSelect = (emoji: any) => {
+        const quill = quillRef.current;
+
+        quill?.insertText(quill.getSelection()?.index || 0, emoji.native);
+    }
+
     return (
         <div className="flex flex-col">
             <div className="flex flex-col border border-neutral-800 rounded-md overflow-hidden focus-within:border-neutral-700 focus-within:ring-1 focus-within:ring-neutral-700 focus-within:shadow-sm transition bg-neutral-50 ">
@@ -152,17 +159,18 @@ const Editor = ({
                             <span className="sr-only">Hide Formatting</span>
                         </Button>
                     </Hints>
-                    <Hints label="Emoji">
+                    <EmojiPopover 
+                        onEmojiSelect={onEmojiSelect}
+                    >
                         <Button
                             size="sm"
                             variant="ghost"
                             disabled={false}
-                            onClick={() => { }}
                         >
                             <Smile className="size-4" />
                             <span className="sr-only">Emoji</span>
                         </Button>
-                    </Hints>
+                    </EmojiPopover>
                     {variant === "create" && (
                         <Hints label="Image Insertion">
                             <Button
