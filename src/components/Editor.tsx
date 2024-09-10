@@ -7,17 +7,19 @@ import {
     useLayoutEffect,
     MutableRefObject,
 } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Delta, Op } from "quill/core";
 import Quill, { QuillOptions } from "quill";
 
 import { MdSend } from "react-icons/md";
 import { PiTextAa } from "react-icons/pi";
-import { ImageIcon, Smile } from "lucide-react";
+import { ImageIcon, Smile, X } from "lucide-react";
 
 import { Hints } from "./Hints";
 import { EmojiPopover } from "./EmojiPopover";
 import { Button } from "@/components/ui/button";
+
 
 type EditorValue = {
     body: string;
@@ -44,15 +46,16 @@ const Editor = ({
     placeholder = "Write your message here...",
 }: EditorProps) => {
     const [text, setText] = useState("");
+    const [image, setImage] = useState<File | null>(null);
     const [isToolbarVisible, setIsToolbarVisible] = useState(true);
 
     const submitRef = useRef(onSubmit);
-    const variantRef = useRef(variant);
     const disabledRef = useRef(disabled);
     const defaultValueRef = useRef(defaultValue);
     const placeholderRef = useRef(placeholder);
     const quillRef = useRef<Quill | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const imageElRef = useRef<HTMLInputElement>(null);
 
     useLayoutEffect(() => {
         submitRef.current = onSubmit;
@@ -145,8 +148,39 @@ const Editor = ({
 
     return (
         <div className="flex flex-col">
+            <input
+                type="file"
+                accept="image/*"
+                ref={imageElRef}
+                className="hidden"
+                onChange={(e) => setImage(e.target.files?.[0] || null)}
+            />
             <div className="flex flex-col border border-neutral-800 rounded-md overflow-hidden focus-within:border-neutral-700 focus-within:ring-1 focus-within:ring-neutral-700 focus-within:shadow-sm transition bg-neutral-50 ">
                 <div ref={containerRef} className="h-full ql-custom" />
+                {!!image && (
+                    <div className="p-2">
+                        <div className="relative size-[62px] flex items-center justify-center group/image">
+                            <Hints label="Remove Image">
+                                <button
+                                    onClick={() => {
+                                        setImage(null);
+                                        imageElRef.current!.value = "";
+                                    }}
+                                    className="hidden group-hover/image:flex rounded-full bg-black/70 hover:bg-black absolute -top-2.5 -right-2.5 text-white size-6 z-[4] border-2 border-white items-center justify-center"
+                                >
+                                    <X className="size-3.5 text-neutral-500 group-hover:text-neutral-600" />
+                                    <span className="sr-only">Remove Image</span>
+                                </button>
+                            </Hints>
+                            <Image
+                                fill
+                                alt="Uploaded Image"
+                                src={URL.createObjectURL(image)}
+                                className="rounded-xl overflow-hidden border object-cover"
+                            />
+                        </div>
+                    </div>
+                )}
                 <div className="flex px-2 pb-2 z-[5]">
                     <Hints label={isToolbarVisible ? "Hide Formatting" : "Show Formatting"}>
                         <Button
@@ -159,7 +193,7 @@ const Editor = ({
                             <span className="sr-only">Hide Formatting</span>
                         </Button>
                     </Hints>
-                    <EmojiPopover 
+                    <EmojiPopover
                         onEmojiSelect={onEmojiSelect}
                     >
                         <Button
@@ -177,7 +211,7 @@ const Editor = ({
                                 size="sm"
                                 variant="ghost"
                                 disabled={disabled}
-                                onClick={() => { }}
+                                onClick={() => imageElRef.current?.click()}
                             >
                                 <ImageIcon className="size-4" />
                                 <span className="sr-only">Image Insertion</span>
