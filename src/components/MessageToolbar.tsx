@@ -44,6 +44,7 @@ export const MessageToolbar = ({
                             size="iconSm"
                             variant="ghost"
                             disabled={isPending}
+                            onClick={handleThread}
                         >
                             <MessageSquare className="size-4" />
                             <span className="sr-only">Reply in Thread</span>
