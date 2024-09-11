@@ -7,15 +7,17 @@ import { toast } from "sonner";
 import { Hints } from "./Hints";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
+import { useConfirm } from "@/hooks/useConfirm";
 import { Doc, Id } from "../../convex/_generated/dataModel";
 import { useDeleteMessage } from "@/features/messages/api/useDeleteMessage";
 import { useUpdateMessage } from "@/features/messages/api/useUpdateMessage";
 
 import { MessageToolbar } from "./MessageToolbar";
 import { MessageThumbnail } from "./MessageThumbnail";
+import { MessageReactions } from "./MessageReactions";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { useConfirm } from "@/hooks/useConfirm";
 import { useToggleReaction } from "@/features/reactions/api/useToggleReaction";
+
 
 
 const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
@@ -147,6 +149,10 @@ export const Message = ({
                                 {updatedAt ? (
                                     <span className="text-xs text-muted-foreground">(edited)</span>
                                 ) : null}
+                                <MessageReactions
+                                    data={reactions}
+                                    onChange={handleToggleReaction}
+                                />
                             </div>
                         )}
 
@@ -218,13 +224,17 @@ export const Message = ({
                                     <span className="text-xs text-muted-foreground">(edited)</span>
                                 ) : null
                             }
+                            <MessageReactions
+                                data={reactions}
+                                onChange={handleToggleReaction}
+                            />
                         </div >
                     )}
                 </div >
                 {!isEditing && (
                     <MessageToolbar
                         isAuthor={isAuthor}
-                        isPending={isPending} 
+                        isPending={isPending}
                         handleThread={() => { }}
                         handleDelete={handleDelete}
                         handleEdit={() => setEditingId(id)}
