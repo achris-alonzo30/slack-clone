@@ -261,4 +261,33 @@ export const update = mutation({
 
         return args.id;
     }
-})
+});
+
+export const remove = mutation({
+    args: {
+        id: v.id("messages"),
+    },
+    handler: async (ctx, args) => {
+        const userId = await getAuthUserId(ctx);
+
+        if (userId === null) {
+            throw new Error("Client is not authenticated!")
+        }
+
+        const message = await ctx.db.get(args.id);
+
+        if (!message) {
+            throw new Error("Message not found!");
+        }
+
+        const member = await getMember(ctx, userId, message.workspaceId);
+
+        if (!member || member._id !== message.memberId) {
+            throw new Error("User is not the author of the message!");
+        }
+
+        await ctx.db.delete(args.id);
+
+        return args.id;
+    }
+});
