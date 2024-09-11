@@ -18,7 +18,7 @@ import Picker from "@emoji-mart/react";
 interface EmojiPopoverProps {
     children: React.ReactNode;
     hint?: string;
-    onEmojiSelect: (emoji: string) => void;
+    onEmojiSelect: (emoji: any) => void;
 }
 
 export const EmojiPopover = ({

@@ -1,10 +1,10 @@
 import { Hints } from "./Hints";
 import dynamic from "next/dynamic";
+import { MessageToolbar } from "./MessageToolbar";
 import { MessageThumbnail } from "./MessageThumbnail";
 import { format, isToday, isYesterday } from "date-fns";
 import { Doc, Id } from "../../convex/_generated/dataModel";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
-
 
 const Renderer = dynamic(() => import("@/components/Renderer"), { ssr: false });
 
@@ -110,6 +110,17 @@ export const Message = ({
                     ) : null}
                 </div>
             </div>
+            {!isEditing && (
+                <MessageToolbar 
+                    isAuthor={isAuthor}
+                    isPending={false}
+                    handleEdit={() => setEditingId(id)}
+                    handleThread={() => {}}
+                    handleDelete={() => {}}
+                    handleReaction={() => {}}
+                    hideThreadButton={hideThreadButton}
+                />
+            )}
         </div>
     )
 }
