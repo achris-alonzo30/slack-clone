@@ -1,9 +1,10 @@
 import { Hints } from "./Hints";
 import dynamic from "next/dynamic";
+import { MessageThumbnail } from "./MessageThumbnail";
 import { format, isToday, isYesterday } from "date-fns";
 import { Doc, Id } from "../../convex/_generated/dataModel";
-import { Avatar, AvatarImage } from "./ui/avatar";
-import { AvatarFallback } from "@radix-ui/react-avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
+
 
 const Renderer = dynamic(() => import("@/components/Renderer"), { ssr: false });
 
@@ -66,6 +67,7 @@ export const Message = ({
                     </Hints>
                     <div className="flex flex-col w-full">
                         <Renderer value={body} />
+                        <MessageThumbnail url={image} />
                         {updatedAt ? (
                             <span className="text-xs text-muted-foreground">(edited)</span>
                         ) : null}
@@ -102,6 +104,7 @@ export const Message = ({
                         </Hints>
                     </div>
                     <Renderer value={body} />
+                    <MessageThumbnail url={image} />
                     {updatedAt ? (
                         <span className="text-xs text-muted-foreground">(edited)</span>
                     ) : null}
