@@ -1,6 +1,6 @@
-import { EmojiPopover } from "./EmojiPopover";
-import { Hints } from "./Hints";
-import { Button } from "./ui/button";
+import { EmojiPopover } from "../EmojiPopover";
+import { Hints } from "../Hints";
+import { Button } from "../ui/button";
 import { MessageSquare, Pencil, Smile, Trash } from "lucide-react";
 
 interface MessageToolbarProps {

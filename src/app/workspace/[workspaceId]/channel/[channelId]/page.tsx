@@ -8,7 +8,7 @@ import { Loader2, TriangleAlert } from "lucide-react";
 
 import { Header } from "./Header";
 import { ChatInput } from "./ChatInput";
-import { MessageList } from "@/components/MessageList";
+import { MessageList } from "@/components/message/MessageList";
 
 
 export default function ChannelPage() {

@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-import { Doc, Id } from "../../convex/_generated/dataModel"
+import { Doc, Id } from "../../../convex/_generated/dataModel"
 import { useGetMember } from "@/features/members/api/useGetMember";
-import { Hints } from "./Hints";
-import { EmojiPopover } from "./EmojiPopover";
+import { Hints } from "../Hints";
+import { EmojiPopover } from "../EmojiPopover";
 import { MdOutlineAddReaction } from "react-icons/md";
 
 interface MessageReactionsProps {

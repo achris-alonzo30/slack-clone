@@ -4,17 +4,17 @@ import {
     isYesterday
 } from "date-fns";
 import { toast } from "sonner";
-import { Hints } from "./Hints";
+import { Hints } from "../Hints";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
 import { useConfirm } from "@/hooks/useConfirm";
-import { Doc, Id } from "../../convex/_generated/dataModel";
+import { Doc, Id } from "../../../convex/_generated/dataModel";
 import { useDeleteMessage } from "@/features/messages/api/useDeleteMessage";
 import { useUpdateMessage } from "@/features/messages/api/useUpdateMessage";
 
-import { MessageToolbar } from "./MessageToolbar";
-import { MessageThumbnail } from "./MessageThumbnail";
-import { MessageReactions } from "./MessageReactions";
+import { MessageToolbar } from "@/components/message/MessageToolbar";
+import { MessageThumbnail } from "@/components/message/MessageThumbnail";
+import { MessageReactions } from "@/components/message/MessageReactions";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useToggleReaction } from "@/features/reactions/api/useToggleReaction";
 

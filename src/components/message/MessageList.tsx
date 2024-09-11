@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Message } from "./Message";
-import { ChannelInfo } from "./Channelnfo";
-import { Id } from "../../convex/_generated/dataModel";
+import { ChannelInfo } from "../Channelnfo";
+import { Id } from "../../../convex/_generated/dataModel";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { useGetMember } from "@/features/members/api/useGetMember";
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
 import { GetMessagesReturnType } from "@/features/messages/api/useGetMessages";
+import { Loader } from "lucide-react";
 
 
 interface MessageListProps {
@@ -76,14 +77,14 @@ export const MessageList = ({
                     {messages.map((message, index) => {
                         const prevMessage = messages[index - 1];
 
-                        const isCompact = 
-                            prevMessage && 
+                        const isCompact =
+                            prevMessage &&
                             prevMessage.user?._id === message.user?._id &&
                             differenceInMinutes(
-                                new Date(message._creationTime), 
+                                new Date(message._creationTime),
                                 new Date(prevMessage._creationTime)
                             ) < TIME_THRESHOLD;
-                        
+
                         return (
                             <Message
                                 id={message._id}
@@ -96,7 +97,7 @@ export const MessageList = ({
                                 updatedAt={message.updatedAt}
                                 reactions={message.reactions}
                                 authorName={message.user.name}
-                                authorImage={message.user.image}    
+                                authorImage={message.user.image}
                                 threadImage={message.threadImage}
                                 threadCount={message.threadCount}
                                 createdAt={message._creationTime}
@@ -109,8 +110,32 @@ export const MessageList = ({
                     })}
                 </aside>
             ))}
+            <div 
+                className="h-1"
+                ref={(el) => {
+                    const observer = new IntersectionObserver(
+                        ([entry]) => {
+                            if (entry.isIntersecting && canLoadMore) {
+                                loadMore();
+                            }
+                        },
+                        { threshold: 1.0 }
+                    );
+
+                    observer.observe(el as Element);
+                    return () => observer.disconnect();
+                }}
+            />
+            {isLoadingMore && (
+                <div className="text-center my-2 relative">
+                    <hr className="absolute top-1/2 left-0 right-0 border-t border-neutral-300" />
+                    <span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border border-neutral-300 shadow-sm">
+                        <Loader className="size-4 animate-spin text-muted-foreground" />
+                    </span>
+                </div>
+            )}
             {variant === "channel" && channelName && channelCreationTime && (
-                <ChannelInfo 
+                <ChannelInfo
                     name={channelName}
                     creationTime={channelCreationTime}
                 />
