@@ -15,6 +15,7 @@ import { MessageToolbar } from "./MessageToolbar";
 import { MessageThumbnail } from "./MessageThumbnail";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useConfirm } from "@/hooks/useConfirm";
+import { useToggleReaction } from "@/features/reactions/api/useToggleReaction";
 
 
 const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
@@ -75,6 +76,7 @@ export const Message = ({
 
     const { mutate: updateMessage, isPending: isPendingMessage } = useUpdateMessage();
     const { mutate: deleteMessage, isPending: isDeletingMessage } = useDeleteMessage();
+    const { mutate: toggleReaction, isPending: isTogglingReaction } = useToggleReaction();
 
     const isPending = isPendingMessage;
 
@@ -103,6 +105,14 @@ export const Message = ({
                 toast.error("Failed to delete message");
             }
         })
+    }
+
+    const handleToggleReaction = (value: string) => {
+        toggleReaction({ value, messageId: id }, {
+            onError: () => {
+                toast.error("Failed to add reaction");
+            }
+        });
     }
 
 
@@ -146,11 +156,11 @@ export const Message = ({
                             <MessageToolbar
                                 isAuthor={isAuthor}
                                 isPending={isPending}
-                                handleEdit={() => setEditingId(id)}
                                 handleThread={() => { }}
                                 handleDelete={handleDelete}
-                                handleReaction={() => { }}
+                                handleEdit={() => setEditingId(id)}
                                 hideThreadButton={hideThreadButton}
+                                handleReaction={handleToggleReaction}
                             />
                         )
                     }
@@ -214,12 +224,12 @@ export const Message = ({
                 {!isEditing && (
                     <MessageToolbar
                         isAuthor={isAuthor}
-                        isPending={isPending}
-                        handleEdit={() => setEditingId(id)}
+                        isPending={isPending} 
                         handleThread={() => { }}
                         handleDelete={handleDelete}
-                        handleReaction={() => { }}
+                        handleEdit={() => setEditingId(id)}
                         hideThreadButton={hideThreadButton}
+                        handleReaction={handleToggleReaction}
                     />
                 )}
             </div >
