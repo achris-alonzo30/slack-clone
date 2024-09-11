@@ -160,7 +160,7 @@ export const get = query({
                         );
 
                         // Remove memberId property from reactions
-                        const reactionsWithoutMemberIdProperty = dedupedReactions.map(({ memberId, ...rest}) => rest);
+                        const reactionsWithoutMemberIdProperty = dedupedReactions.map(({ memberId, ...rest }) => rest);
 
                         return {
                             ...message,
@@ -227,5 +227,38 @@ export const create = mutation({
         });
 
         return messageId;
+    }
+});
+
+export const update = mutation({
+    args: {
+        body: v.string(),
+        id: v.id("messages"),
+    },
+    handler: async (ctx, args) => {
+        const userId = await getAuthUserId(ctx);
+
+        if (userId === null) {
+            throw new Error("Client is not authenticated!")
+        }
+
+        const message = await ctx.db.get(args.id);
+
+        if (!message) {
+            throw new Error("Message not found!");
+        }
+
+        const member = await getMember(ctx, userId, message.workspaceId);
+
+        if (!member || member._id !== message.memberId) {
+            throw new Error("User is not the author of the message!");
+        }
+
+        await ctx.db.patch(args.id, {
+            body: args.body,
+            updatedAt: Date.now(),
+        });
+
+        return args.id;
     }
 })
