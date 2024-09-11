@@ -1,6 +1,7 @@
 import { Message } from "./Message";
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
 import { GetMessagesReturnType } from "@/features/messages/api/useGetMessages";
+import { ChannelInfo } from "./Channelnfo";
 
 interface MessageListProps {
     memberName?: string;
@@ -97,6 +98,12 @@ export const MessageList = ({
                     })}
                 </aside>
             ))}
+            {variant === "channel" && channelName && channelCreationTime && (
+                <ChannelInfo 
+                    name={channelName}
+                    creationTime={channelCreationTime}
+                />
+            )}
         </section>
     )
 }
