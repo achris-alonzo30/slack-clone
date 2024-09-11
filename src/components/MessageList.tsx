@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { Message } from "./Message";
+import { ChannelInfo } from "./Channelnfo";
+import { Id } from "../../convex/_generated/dataModel";
+import { useWorkspaceId } from "@/hooks/useWorkspaceId";
+import { useGetMember } from "@/features/members/api/useGetMember";
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
 import { GetMessagesReturnType } from "@/features/messages/api/useGetMessages";
-import { ChannelInfo } from "./Channelnfo";
+
 
 interface MessageListProps {
     memberName?: string;
@@ -37,6 +42,12 @@ export const MessageList = ({
     channelCreationTime,
     variant = "channel",
 }: MessageListProps) => {
+    const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
+
+    const workspaceId = useWorkspaceId();
+
+    const { member } = useGetMember({ workspaceId });
+
     const groupedMessages = data?.reduce(
         (groups, message) => {
             const date = new Date(message._creationTime);
@@ -75,15 +86,12 @@ export const MessageList = ({
                         
                         return (
                             <Message
-                                isAuthor={false}
-                                isEditing={false}
                                 id={message._id}
                                 key={message._id}
                                 body={message.body}
                                 isCompact={isCompact}
                                 image={message.image}
-                                setEditingId={() => {}}
-                                hideThreadButton={false}
+                                setEditingId={setEditingId}
                                 memberId={message.memberId}
                                 updatedAt={message.updatedAt}
                                 reactions={message.reactions}
@@ -92,7 +100,10 @@ export const MessageList = ({
                                 threadImage={message.threadImage}
                                 threadCount={message.threadCount}
                                 createdAt={message._creationTime}
+                                isEditing={editingId === message._id}
+                                hideThreadButton={variant === "thread"}
                                 threadTimestamp={message.threadTimestamp}
+                                isAuthor={message.memberId === member?._id}
                             />
                         )
                     })}
