@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Hints } from "../Hints";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
+import { usePanel } from "@/hooks/usePanel";
 import { useConfirm } from "@/hooks/useConfirm";
 import { Doc, Id } from "../../../convex/_generated/dataModel";
 import { useDeleteMessage } from "@/features/messages/api/useDeleteMessage";
@@ -17,7 +18,6 @@ import { MessageThumbnail } from "@/components/message/MessageThumbnail";
 import { MessageReactions } from "@/components/message/MessageReactions";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useToggleReaction } from "@/features/reactions/api/useToggleReaction";
-
 
 
 const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
@@ -71,6 +71,8 @@ export const Message = ({
     hideThreadButton,
     authorName = "Member",
 }: MessageProps) => {
+    const { parentMessageId, onOpenMessage, onClose } = usePanel();
+
     const [ConfirmDialog, confirm] = useConfirm(
         "Delete message",
         "Are you sure you want to delete this message?"
@@ -102,6 +104,10 @@ export const Message = ({
         deleteMessage({ id }, {
             onSuccess: () => {
                 toast.success("Message deleted successfully");
+
+                if (parentMessageId === id) {
+                    onClose();
+                }
             },
             onError: () => {
                 toast.error("Failed to delete message");
@@ -162,11 +168,11 @@ export const Message = ({
                             <MessageToolbar
                                 isAuthor={isAuthor}
                                 isPending={isPending}
-                                handleThread={() => { }}
                                 handleDelete={handleDelete}
                                 handleEdit={() => setEditingId(id)}
                                 hideThreadButton={hideThreadButton}
                                 handleReaction={handleToggleReaction}
+                                handleThread={() => onOpenMessage(id)}
                             />
                         )
                     }
@@ -235,11 +241,11 @@ export const Message = ({
                     <MessageToolbar
                         isAuthor={isAuthor}
                         isPending={isPending}
-                        handleThread={() => { }}
                         handleDelete={handleDelete}
                         handleEdit={() => setEditingId(id)}
                         hideThreadButton={hideThreadButton}
                         handleReaction={handleToggleReaction}
+                        handleThread={() => onOpenMessage(id)}
                     />
                 )}
             </div >
