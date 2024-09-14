@@ -1,3 +1,4 @@
+import { useMemberId } from "@/hooks/useMemberId";
 import { useChannelId } from "@/hooks/useChannelId";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { useGetMember } from "@/features/members/api/useGetMember";
@@ -18,7 +19,10 @@ import { SidebarItem } from "./SidebarItem";
 import { WorkspaceHeader } from "./WorkspaceHeader";
 import { WorkspaceSection } from "./WorkspaceSection";
 
+
+
 export const WorkspaceSidebar = () => {
+    const memberId = useMemberId();
     const channelId = useChannelId();
     const workspaceId = useWorkspaceId();
 
@@ -89,6 +93,7 @@ export const WorkspaceSidebar = () => {
                     key={item._id}
                     label={item.user.name}
                     image={item.user.image}
+                    variant={memberId === item._id ? "active" : "default"}
                 />
             ))} 
             </WorkspaceSection>
