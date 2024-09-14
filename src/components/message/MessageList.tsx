@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { Message } from "./Message";
-import { ChannelInfo } from "../Channelnfo";
 import { Id } from "../../../convex/_generated/dataModel";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { useGetMember } from "@/features/members/api/useGetMember";
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
 import { GetMessagesReturnType } from "@/features/messages/api/useGetMessages";
+
+import { Message } from "./Message";
 import { Loader } from "lucide-react";
+import { ChannelInfo } from "../Channelnfo";
+import { ConversationInfo } from "../ConversationInfo";
 
 
 interface MessageListProps {
@@ -138,6 +140,12 @@ export const MessageList = ({
                 <ChannelInfo
                     name={channelName}
                     creationTime={channelCreationTime}
+                />
+            )}
+            {variant === "conversation" && memberName && memberImage && (
+                <ConversationInfo
+                    name={memberName}
+                    image={memberImage}
                 />
             )}
         </section>
