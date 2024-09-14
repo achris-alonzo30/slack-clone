@@ -26,6 +26,28 @@ export const get = query({
     }
 })
 
+export const getById = query({
+    args: { memberId: v.id("members") },
+    handler: async (ctx, { memberId }) => {
+        const userId = await getAuthUserId(ctx);
+
+        if (!userId) return null;
+
+        const member = await ctx.db.get(memberId);
+
+        if (!member) return null;
+
+        const user = await populateMember(ctx, member.userId);
+
+        if (!user) return null;
+
+        return {
+            ...member,
+            user
+        }
+    }
+})
+
 export const getAll = query({
     args: { workspaceId: v.id("workspaces") },
     handler: async (ctx, { workspaceId }) => {
