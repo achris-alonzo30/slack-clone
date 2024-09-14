@@ -13,11 +13,13 @@ import { Doc, Id } from "../../../convex/_generated/dataModel";
 import { useDeleteMessage } from "@/features/messages/api/useDeleteMessage";
 import { useUpdateMessage } from "@/features/messages/api/useUpdateMessage";
 
+import { MessageThreadBar } from "./MessageThreadBar";
 import { MessageToolbar } from "@/components/message/MessageToolbar";
 import { MessageThumbnail } from "@/components/message/MessageThumbnail";
 import { MessageReactions } from "@/components/message/MessageReactions";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useToggleReaction } from "@/features/reactions/api/useToggleReaction";
+
 
 
 const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
@@ -29,6 +31,7 @@ interface MessageProps {
     isEditing: boolean;
     isCompact?: boolean;
     authorName?: string;
+    threadName?: string;
     authorImage?: string;
     threadImage?: string;
     threadCount?: number;
@@ -63,6 +66,7 @@ export const Message = ({
     updatedAt,
     reactions,
     createdAt,
+    threadName,
     authorImage,
     threadImage,
     threadCount,
@@ -158,6 +162,13 @@ export const Message = ({
                                 <MessageReactions
                                     data={reactions}
                                     onChange={handleToggleReaction}
+                                />
+                                <MessageThreadBar 
+                                    name={threadName}
+                                    count={threadCount}
+                                    image={threadImage}
+                                    timestamp={threadTimestamp}
+                                    onClick={() => onOpenMessage(id)}
                                 />
                             </div>
                         )}

@@ -99,6 +99,7 @@ export const MessageList = ({
                                 updatedAt={message.updatedAt}
                                 reactions={message.reactions}
                                 authorName={message.user.name}
+                                threadName={message.threadName}
                                 authorImage={message.user.image}
                                 threadImage={message.threadImage}
                                 threadCount={message.threadCount}

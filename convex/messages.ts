@@ -41,6 +41,7 @@ const populateThread = async (
     if (messages.length === 0) {
         return {
             count: 0,
+            name: "",
             timestamp: 0,
             image: undefined,
         }
@@ -52,6 +53,7 @@ const populateThread = async (
     if (!lastMessageMember) {
         return {
             count: 0,
+            name: "",
             timestamp: 0,
             image: undefined,
         }
@@ -61,6 +63,7 @@ const populateThread = async (
 
     return {
         count: messages.length,
+        name: lastMessageUser?.name,
         image: lastMessageUser?.image,
         timestamp: lastMessage._creationTime,
     }
@@ -167,6 +170,7 @@ export const get = query({
                             user,
                             image,
                             member,
+                            threadName: thread.name,
                             threadCount: thread.count,
                             threadImage: thread.image,
                             threadTimestamp: thread.timestamp,
