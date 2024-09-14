@@ -7,6 +7,7 @@ import { Loader2 } from "lucide-react";
 
 import { Header } from "./Header";
 import { ChatInput } from "./ChatInput";
+import { MessageList } from "@/components/message/MessageList";
 
 
 export const MemberConversation = ({
@@ -32,6 +33,16 @@ export const MemberConversation = ({
                 memberName={member?.user.name}  
                 memberImage={member?.user.image}
                 onClick={() => {}}
+            />
+            <MessageList 
+                data={results}
+                loadMore={loadMore}
+                variant="conversation"
+                memberName={member?.user.name}
+                memberImage={member?.user.image}
+                canLoadMore={status === "CanLoadMore"}
+                isLoadingMore={status === "LoadingMore"}
+                
             />
             <ChatInput 
                 conversationId={conversationId}
