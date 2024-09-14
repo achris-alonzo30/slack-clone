@@ -5,11 +5,11 @@ import {
 } from "@/components/ui/avatar";
 
 export const ConversationInfo = ({
-    name,
-    image
+    image,
+    name = "Anonymous",
 }: {
-    name: string;
-    image: string;
+    name?: string;
+    image?: string;
 }) => {
     return (
         <div className="mt-[88px] mx-5 mb-4">

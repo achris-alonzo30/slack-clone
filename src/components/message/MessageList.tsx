@@ -142,7 +142,7 @@ export const MessageList = ({
                     creationTime={channelCreationTime}
                 />
             )}
-            {variant === "conversation" && memberName && memberImage && (
+            {variant === "conversation" && (
                 <ConversationInfo
                     name={memberName}
                     image={memberImage}
