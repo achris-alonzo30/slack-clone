@@ -11,7 +11,9 @@ import { Loader } from "lucide-react";
 import { usePanel } from "@/hooks/usePanel";
 import { WorkspaceSidebar } from "./WorkspaceSidebar";
 import { Id } from "../../../../convex/_generated/dataModel";
+import { Profile } from "@/features/members/components/Profile";
 import { MessageThread } from "@/features/messages/components/MessageThread";
+
 
 export default function WorkspaceLayout({ children }: { children: React.ReactNode }) {
     const { parentMessageId, profileMemberId, onClose } = usePanel();
