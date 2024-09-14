@@ -14,11 +14,9 @@ import { Id } from "../../../../convex/_generated/dataModel";
 import { MessageThread } from "@/features/messages/components/MessageThread";
 
 export default function WorkspaceLayout({ children }: { children: React.ReactNode }) {
-    const { parentMessageId, onClose } = usePanel();
+    const { parentMessageId, profileMemberId, onClose } = usePanel();
 
-    const showPanel = !!parentMessageId;
-
-
+    const showPanel = !!parentMessageId || !!profileMemberId;
 
     return (
         <div className="h-full">
@@ -53,7 +51,12 @@ export default function WorkspaceLayout({ children }: { children: React.ReactNod
                                         onClose={onClose}
                                         messageId={parentMessageId as Id<"messages">}
                                     />
-                                ) : (
+                                ) : profileMemberId ? (
+                                    <Profile 
+                                        onClose={onClose}
+                                        memberId={profileMemberId as Id<"members">}
+                                    />
+                                ) :(
                                     <div className="flex h-full items-center justify-center">
                                         <Loader className="size-5 animate-spin text-muted-foreground" />
                                     </div>
