@@ -6,6 +6,7 @@ import { useGetMemberById } from "@/features/members/api/useGetMemberById";
 import { Loader2 } from "lucide-react";
 
 import { Header } from "./Header";
+import { ChatInput } from "./ChatInput";
 
 
 export const MemberConversation = ({
@@ -27,8 +28,15 @@ export const MemberConversation = ({
     }
     return (
         <main className="flex flex-col h-full">
-            <Header  />
-
+            <Header 
+                memberName={member?.user.name}  
+                memberImage={member?.user.image}
+                onClick={() => {}}
+            />
+            <ChatInput 
+                conversationId={conversationId}
+                placeholder={`Message ${member?.user.name}`}
+            />
         </main>
     )
 }
