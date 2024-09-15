@@ -45,7 +45,7 @@ export const MessageReactions = ({
             ))}
             <EmojiPopover
                 hint="Add Reaction"
-                onEmojiSelect={(emoji) => onChange(emoji.native)}
+                onEmojiSelect={(emoji) => onChange(emoji)}
             >
                 <button
                     className="h-7 px-3 rounded-full bg-neutral-200/70 border border-transparent hover:border-neutral-500 text-neutral-800 flex items-center gap-x-1"
