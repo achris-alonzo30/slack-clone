@@ -22,7 +22,11 @@ export const UserButton = () => {
     const { signOut } = useAuthActions();
     const { user, isLoading } = useCurrentUser();
 
-    if (isLoading) return <Loader2 className="animate-spin size-5 text-muted-foreground" />;
+    if (isLoading) {
+        return (
+            <span className="size-10 rounded-md bg-neutral-500 animate-pulse transition-colors"/>
+        )
+    };
 
     if (!user) return null;
 

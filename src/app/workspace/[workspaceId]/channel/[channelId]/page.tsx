@@ -20,7 +20,7 @@ export default function ChannelPage() {
     if (isLoading || status === "LoadingFirstPage") {
         return (
             <main className="h-full flex-1 flex items-center justify-center">
-                <Loader2 className="size-8 text-neutral-500 animate-spin" />
+                <div className="loader"></div>
             </main>
         )
     };

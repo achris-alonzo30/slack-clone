@@ -48,7 +48,7 @@ export default function WorkspaceIdPage() {
     if (workspaceLoading || channelsLoading || memberLoading) {
         return (
             <main className="h-full flex-1 flex items-center justify-center flex-col gap-2">
-                <Loader2 className="size-8 animate-spin text-neutral-500" />
+                <div className="loader"></div>
             </main>
         )
     };

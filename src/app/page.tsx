@@ -25,7 +25,7 @@ export default function Home() {
 
   return (
     <main className="h-full w-full flex items-center justify-center mx-auto">
-      <section className="h-full w-full flex flex-col items-center justify-center mx-auto">
+      <section className="h-full w-full flex flex-col gap-4 items-center justify-center mx-auto">
         {/* From Uiverse.io by SchawnnahJ */}
         <div className="loader"></div>
         <h1 className="text-4xl font-bold text-center text-neutral-900">

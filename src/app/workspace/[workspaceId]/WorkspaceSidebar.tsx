@@ -36,7 +36,7 @@ export const WorkspaceSidebar = () => {
     if (isLoadingMember || isLoadingWorkspace) {
         return (
             <div className="flex flex-col bg-[#5e2c5f] h-full items-center justify-center">
-                <Loader className="size-5 animate-spin text-white" />
+                <div className="loader"></div>
             </div>
         )
     }

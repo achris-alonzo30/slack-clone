@@ -60,7 +60,7 @@ export default function WorkspaceLayout({ children }: { children: React.ReactNod
                                     />
                                 ) :(
                                     <div className="flex h-full items-center justify-center">
-                                        <Loader className="size-5 animate-spin text-muted-foreground" />
+                                        <div className="loader"></div>
                                     </div>
                                 )}
                             </ResizablePanel>

@@ -37,7 +37,7 @@ export default function MemberPage() {
     if (isPending) {
         return (
             <main className="h-full flex items-center justify-center">
-                <Loader2 className="size-8 animate-spin text-muted-foreground" />
+                <div className="loader"></div>
             </main>
         )
     }
