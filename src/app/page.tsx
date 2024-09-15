@@ -24,14 +24,9 @@ export default function Home() {
   }, [isLoading, workspaceId, isOpen, setIsOpen]);
 
   return (
-    <main className="h-full w-full flex items-center justify-center mx-auto">
-      <section className="h-full w-full flex flex-col gap-4 items-center justify-center mx-auto">
-        {/* From Uiverse.io by SchawnnahJ */}
-        <div className="loader"></div>
-        <h1 className="text-4xl font-bold text-center text-neutral-900">
-          Loading Workspaces...
-        </h1>
-      </section>
+    <main className="h-full w-full flex items-center justify-center">
+      {/* From Uiverse.io by SchawnnahJ */}
+      <div className="loader" />
     </main>
   );
 }
